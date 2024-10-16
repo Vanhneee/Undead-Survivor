@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public float speed; // Tốc độ di chuyển
+    public float speed; 
     public Vector2 inputVec;    // Vector lưu trữ hướng di chuyển                                                           
 
 
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     public void Start()
     {
-        // Lấy cac thành phần trên đối tượng cụ thể
+        // Lấy các thành phần trên đối tượng cụ thể
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();

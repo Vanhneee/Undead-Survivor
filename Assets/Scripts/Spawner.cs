@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Transform[] spawnPoint; // Điểm spawn
-    public SpawnData[] spawnData;  // Dữ liệu spawn
+    public Transform[] spawnPoint; 
+    public SpawnData[] spawnData; 
 
     private int level;   // Level hiện tại
     private float timer; // Bộ đếm thời gian
@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime; // Tăng thời gian
+        timer += Time.deltaTime; 
         level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1); // Cập nhật level
 
         if (timer > spawnData[level].spawnTime) // Kiểm tra thời gian spawn

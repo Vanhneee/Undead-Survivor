@@ -42,6 +42,6 @@ public class PoolManager : MonoBehaviour
             pools[index].Add(select);
         }
 
-        return select; // Trả về đối tượng
+        return select; 
     }
 }

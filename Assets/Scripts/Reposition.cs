@@ -30,27 +30,28 @@ public class Reposition : MonoBehaviour
 
         switch (transform.tag)
         {
+            // di chuyển Ground
             case "Ground":
                 if (diffX > diffY)
                 {
                     if (dirX > 0)
                     {
-                        transform.Translate(Vector3.right * 40); // Di chuyển sang phải
+                        transform.Translate(Vector3.right * 40); 
                     }
                     else
                     {
-                        transform.Translate(Vector3.left * 40); // Di chuyển sang trái
+                        transform.Translate(Vector3.left * 40); 
                     }
                 }
                 else if (diffY > diffX)
                 {
                     if (dirY > 0)
                     {
-                        transform.Translate(Vector3.up * 40); // Di chuyển lên trên
+                        transform.Translate(Vector3.up * 40); 
                     }
                     else
                     {
-                        transform.Translate(Vector3.down * 40); // Di chuyển xuống dưới
+                        transform.Translate(Vector3.down * 40); 
                     }
                 }
                 break;

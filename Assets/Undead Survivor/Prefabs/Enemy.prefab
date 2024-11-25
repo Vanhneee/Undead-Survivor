@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9169184511824678429}
   - component: {fileID: 5332961026795363752}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,8 +98,7 @@ GameObject:
   - component: {fileID: 1768738617029145810}
   - component: {fileID: 1808964953046539338}
   - component: {fileID: 3664431224729844949}
-  - component: {fileID: 1992470519402509795}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -184,7 +183,7 @@ Animator:
   m_GameObject: {fileID: 638158258327015798}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
+  m_Controller: {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -251,7 +250,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -275,16 +274,7 @@ MonoBehaviour:
   animCon:
   - {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
   - {fileID: 22100000, guid: 12cfc8b2360c2fc4499d4f6f6607671a, type: 2}
-  taget: {fileID: 0}
---- !u!114 &1992470519402509795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 638158258327015798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4451c54fbaef0cc40ba647fe9b380e8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
+  target: {fileID: 0}
+  expPrefab: {fileID: 5342218191621190847, guid: 83502ffc4cfaf644ca5c8702cb860014,
+    type: 3}

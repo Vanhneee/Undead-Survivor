@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Enemy
   - Bullet
+  - HandRight
+  - Fireball
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 

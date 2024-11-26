@@ -1,91 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    public static PoolManager Instance;
+    // Mảng các prefab
+    public GameObject[] prefabs;
 
-    public GameObject[] prefabs; // Các prefab
-
-    private List<List<GameObject>> pools; // Danh sách chứa các danh sách pool
+    // Danh sách để chứa các đối tượng đã được pool
+    List<GameObject>[] pools;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        // Mảng pools có cùng độ dài với mảng prefabs
+        pools = new List<GameObject>[prefabs.Length];
 
-        DontDestroyOnLoad(gameObject);
-        InitializePools();
-    }
-
-    // Phương thức khởi tạo pools
-    private void InitializePools()
-    {
-        pools = new List<List<GameObject>>();
-
-        // Tạo danh sách rỗng cho từng prefab
-        for (int i = 0; i < prefabs.Length; i++)
+        for (int index = 0; index < pools.Length; ++index)
         {
-            pools.Add(new List<GameObject>());
+            // Mỗi phần tử của mảng pools là một List<GameObject> mới
+            pools[index] = new List<GameObject>();
         }
     }
 
-    // Phương thức Spawn để tạo đối tượng từ pool
-    public GameObject Spawn(int index, Vector3 position, Quaternion rotation)
-    {
-        GameObject obj = Get(index);
-        obj.transform.position = position;
-        obj.transform.rotation = rotation;
-        obj.SetActive(true);
-        return obj;
-    }
-
-    // Phương thức Destroy để vô hiệu hóa đối tượng và trả về pool
-    public void Destroy(GameObject obj)
-    {
-        obj.SetActive(false);
-    }
-
-    // Lấy một đối tượng từ pool hoặc tạo mới nếu cần thiết
+    // Phương thức để lấy một đối tượng từ pool bằng chỉ số
     public GameObject Get(int index)
     {
-        GameObject selectedObject = FindInactiveObject(index);
+        GameObject select = null;
 
-        // Nếu không tìm thấy, tạo mới đối tượng
-        if (selectedObject == null)
+        foreach (GameObject item in pools[index])
         {
-            selectedObject = CreateNewObject(index);
-        }
-
-        return selectedObject;
-    }
-
-    // Tìm đối tượng chưa sử dụng trong pool
-    private GameObject FindInactiveObject(int index)
-    {
-        foreach (var obj in pools[index])
-        {
-            if (!obj.activeInHierarchy)
+            if (!item.activeSelf)
             {
-                return obj;
+                // Gán select bằng đối tượng không hoạt động
+                select = item;
+                // Kích hoạt đối tượng được chọn
+                select.SetActive(true);
+                break;
             }
         }
-        return null;
-    }
 
-    // Tạo đối tượng mới và thêm vào pool
-    private GameObject CreateNewObject(int index)
-    {
-        var newObj = Instantiate(prefabs[index], transform);
-        pools[index].Add(newObj);
-        return newObj;
+        if (!select)
+        {
+            // Khởi tạo một đối tượng mới từ prefab tương ứng
+            select = Instantiate(prefabs[index], transform);
+            // Thêm đối tượng vừa khởi tạo vào pool
+            pools[index].Add(select);
+        }
+
+        return select;
     }
 }
+
 

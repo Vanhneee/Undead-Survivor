@@ -91,6 +91,7 @@ public class Player : MonoBehaviour
             return;
 
         GameManager.instance.health -= Time.deltaTime * 10 ;
+        Debug.Log("va cham");
 
         if(GameManager.instance.health < 0)
         {

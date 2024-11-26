@@ -26,22 +26,6 @@ public class Weapon : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
-        //switch (id)
-        //{
-        //    case 5:
-        //    case 0:
-        //        transform.Rotate(Vector3.forward * speed * Time.deltaTime);
-        //        break;
-        //    default:
-        //        timer += Time.deltaTime;
-        //        if (timer > speed)
-        //        {
-        //            timer = 0f;
-        //            Fire();
-        //        }
-        //        break;
-        //}
-
         if (id == 0 || id == 5) 
         {
             Vector3 euler = Vector3.forward * speed * Time.deltaTime;
@@ -170,8 +154,8 @@ public class Weapon : MonoBehaviour
         Vector3 dir = (rightHand.muzzle.position - player.transform.position).normalized;
         dir.z = 0; // Đảm bảo chỉ hoạt động trên mặt phẳng 2D
 
-        print(dir);
-        if (count <= 3)
+        //print(dir);
+        if (count < 3)
         {
             //1 dir
             FireRange(dir);
@@ -179,37 +163,41 @@ public class Weapon : MonoBehaviour
         else
         {
             //tăng dir lv 4 :  3 dir , lv5 : 5 dir : lv6 : 7 dir
-            FireRange(dir,(count - 3)*2 );
+            print((count - 3) * 2);
+            FireRange(dir, (count - 3) * 2);
         }
-        
-        
-        
-        
+
+
     }
 
     void FireRange(Vector3 dir, float loop = 0)
     {
-        Vector3 dirrec ;
+        Vector3 dirrec;
+        Quaternion euler;
         int e = 1;
-        for (int i = 0; i <= loop ; i++ ) 
+        for (int i = 0; i <= loop; i++)
         {
             // Lấy viên đạn từ Object Pool
             GameObject bulletObject = GameManager.instance.pool.Get(prefabId);
-            
+
             if (bulletObject == null) return;
 
-            e = (i - e == 2) ? e = i : e;
-            Quaternion euler = Quaternion.Euler(0, 0, 10*e * -1f) ;
-            dirrec = (i!=0)? euler * dir:dir  ;
+            e = (i - e == 2) ?  i : e;
             
+            euler = Quaternion.Euler(0, 0,
+                (i % 2 == 0) ? i  * 10f : -i  * 10f);
+
+            dirrec = (i > 0) ? euler * dir : dir;
+
             bulletObject.SetActive(true); // Kích hoạt đối tượng từ Pool
             Transform bullet = bulletObject.transform;
             bullet.position = rightHand.muzzle.position;
             bullet.rotation = Quaternion.FromToRotation(Vector3.up, dirrec);
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
-            bulletComponent.Init(damage, dirrec , true); // Khởi tạo viên đạn với sát thương, số lần xuyên qua, hướng bắn
+            bulletComponent.Init(damage, dirrec, true); // Khởi tạo viên đạn với sát thương, số lần xuyên qua, hướng bắn
         }
     }
+
 
     void Knife()
     {

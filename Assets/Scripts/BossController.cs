@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +7,9 @@ public class BossController : MonoBehaviour
 {
     public GameObject _hudDamageText;
 
-    protected EnemyStat _stat;
+    public EnemyStat _stat;
     public Rigidbody2D _target;
     bool _isLive = true;
-    bool _isAttack = false;
     public float _skillcool = 8f;
     public int _randStat = 50;
     bool _useSkill = false;
@@ -25,7 +25,6 @@ public class BossController : MonoBehaviour
 
     protected void Init()
     {
-        _stat = GetComponent<EnemyStat>();
         _rigid = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _anime = GetComponent<Animator>();
@@ -38,29 +37,24 @@ public class BossController : MonoBehaviour
             return;
 
         Vector2 dirVec = _target.position - _rigid.position;
-        if (!_useSkill && dirVec.magnitude < 10)
+        if (dirVec.magnitude < 3f)
         {
-            float rd = Random.Range(0, 100f);
+            if (_useSkill) return;
+            float rd = UnityEngine.Random.Range(0, 100f);
 
-            //if (rd < _randStat)
-            //{
-            //    Skill1();
-            //}
-            //else
-            //{
-            //    Skill2();
-            //}
+            if (rd < _randStat)
+            {
+                Skill1();
+            }
+            else
+            {
+                Skill2();
+            }
+            return;
         }
-        else if (_useSkill && _isAttack)
-        {
-            _rigid.velocity = Vector2.zero;
-        }
-        else if (!_isAttack)
-        {
-            Vector2 nextVec = dirVec.normalized * (_stat.MoveSpeed * Time.fixedDeltaTime);
-            _rigid.MovePosition(_rigid.position + nextVec);
-            _rigid.velocity = Vector2.zero;
-        }
+        Vector2 nextVec = dirVec.normalized * (_stat.MoveSpeed * Time.fixedDeltaTime);
+        _rigid.MovePosition(_rigid.position + nextVec);
+        
     }
 
     private void LateUpdate()
@@ -77,15 +71,17 @@ public class BossController : MonoBehaviour
     void Skill1()
     {
         _useSkill = true;
-        _isAttack = true;
-        _anime.Play("Mushromm_AttackReady1", -1, 0);
+        print("skill 1");
+        _anime.SetBool("skill1" , true);
+        _anime.SetBool("skill2" , false);
     }
 
     void Skill2()
     {
         _useSkill = true;
-        _isAttack = true;
-        _anime.Play("Mushromm_AttackReady2", -1, 0);
+        print("skill 2");
+        _anime.SetBool("skill2", true);
+        _anime.SetBool("skill1", false);
     }
 
     public void OnDamaged(int damage)
@@ -122,12 +118,13 @@ public class BossController : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             GameObject expGo = Instantiate(GameManager.instance.expPrefab);
-            expGo.transform.position = transform.position + new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
+            expGo.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
         }
     }
 }
 
-public class EnemyStat : MonoBehaviour
+[Serializable]
+public class EnemyStat 
 {
     public float MoveSpeed = 3.0f;
     public int HP = 100;

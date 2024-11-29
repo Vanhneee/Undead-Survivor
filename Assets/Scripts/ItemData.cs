@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 
+public enum ItemType { Melee, Range, Glove, Shoe, Heal, FireBall, Rake }
+
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Object/ItemData")]
 public class ItemData : ScriptableObject
 {
-    public enum ItemType { Melee, Range, Glove, Shoe, Heal, FireBall, Knife}
-
     [Header("# Main Info")]
     public ItemType itemType;
     public int itemId;

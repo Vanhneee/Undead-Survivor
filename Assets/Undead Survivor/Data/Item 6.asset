@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53a7fb1e414a1464186f3702f87d4087, type: 3}
-  m_Name: Item 5
+  m_Name: Item 6
   m_EditorClassIdentifier: 
-  itemType: 5
-  itemId: 5
-  itemName: Fire Ball
-  radius: 5
-  itemDesc: Fire Ball
-  itemIcon: {fileID: 154122315, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
-  baseDamage: 5
-  baseCount: 1
+  itemType: 6
+  itemId: 6
+  itemName: Rake
+  radius: 0
+  itemDesc: Desc Rake
+  itemIcon: {fileID: -1786786079, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
+  baseDamage: 4
+  baseCount: 0
   damages:
   - 1
   - 2
@@ -28,6 +28,6 @@ MonoBehaviour:
   - 5
   - 6
   counts: 010000000100000001000000010000000100000001000000
-  projectile: {fileID: 2038771479615280927, guid: 5337da762bfab8c40a5072e10d141b71,
+  projectile: {fileID: 1480195009991230670, guid: bfb86646f8e765744a811fcb98afb0db,
     type: 3}
   hand: {fileID: 0}

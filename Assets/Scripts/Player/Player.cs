@@ -91,7 +91,6 @@ public class Player : MonoBehaviour
             return;
 
         GameManager.instance.health -= Time.deltaTime * 10 ;
-        Debug.Log("va cham");
 
         if(GameManager.instance.health < 0)
         {
@@ -119,8 +118,8 @@ public class Player : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
+        // khởi tạo character
         animator.runtimeAnimatorController = animCon[characterId];
-        Debug.Log("Character changed to ID: " + characterId);
     }
 
     

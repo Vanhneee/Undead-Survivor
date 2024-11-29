@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Gear : MonoBehaviour
 {
-    public ItemData.ItemType type;
+    public ItemType type;
     public float rate;
 
     public void  Init(ItemData data)
@@ -31,10 +31,10 @@ public class Gear : MonoBehaviour
     {
         switch (type)
         {
-            case ItemData.ItemType.Glove:
+            case ItemType.Glove:
                 RateUp();
                 break;
-            case ItemData.ItemType.Shoe:
+            case ItemType.Shoe:
                 SpeedUp();
                 break;
         }
@@ -47,13 +47,13 @@ public class Gear : MonoBehaviour
 
         foreach (Weapon weapon in weapons)
         {
-            switch (weapon.id)
+            switch (weapon.skill.id)
             {
                 case 0:
-                    weapon.speed = 150 + (150  * rate);
+                    weapon.skill.speed = 150 + (150  * rate);
                     break;
                 case 1:
-                    weapon.speed = 0.8f + (0.8f * rate);
+                    weapon.skill.speed = 0.8f + (0.8f * rate);
                     break;
             }
         }

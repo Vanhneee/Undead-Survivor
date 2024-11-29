@@ -98,11 +98,11 @@ public class Enemy : MonoBehaviour
         GameManager.instance.kill++;
         GameManager.instance.GetExp();
 
-        // Thêm xác suất rơi EXP (50%)
+        // Thêm xác suất rơi EXP (80%)
         if (expPrefab != null)
         {
             int dropChance = Random.Range(0, 100); // Tạo giá trị ngẫu nhiên từ 0 đến 99
-            if (dropChance < 50) // Nếu giá trị nhỏ hơn 50, tức là 50% xác suất
+            if (dropChance < 80) // Nếu giá trị nhỏ hơn 80, tức là 80% xác suất
             {
                 Instantiate(expPrefab, transform.position, Quaternion.identity);
             }

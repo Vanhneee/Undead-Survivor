@@ -38,14 +38,15 @@ public class Item : MonoBehaviour
         textLevel.text = "Lv." + (level + 1);
 
         switch (data.itemType)
-        {
-            case ItemData.ItemType.Melee:
-            case ItemData.ItemType.Range:
+        {   case ItemType.Rake:
+            case ItemType.FireBall:
+            case ItemType.Melee:
+            case ItemType.Range:
                 textDesc.text = string.Format(data.itemDesc, data.damages[Mathf.Min(level, data.damages.Length - 1)] * 100, data.counts[Mathf.Min(level, data.counts.Length - 1)]);
                 break;
 
-            case ItemData.ItemType.Glove:
-            case ItemData.ItemType.Shoe:
+            case ItemType.Glove:
+            case ItemType.Shoe:
                 textDesc.text = string.Format(data.itemDesc, data.damages[Mathf.Min(level, data.damages.Length - 1)] * 100);
                 break;
 
@@ -60,13 +61,15 @@ public class Item : MonoBehaviour
         switch (data.itemType)
         {
             // dame , số lượng
-            case ItemData.ItemType.FireBall:
-            case ItemData.ItemType.Melee:
-            case ItemData.ItemType.Range:
+            case ItemType.Rake:
+            case ItemType.FireBall:
+            case ItemType.Melee:
+            case ItemType.Range:
                 if (level == 0)
                 {
                     GameObject newWeapon = new GameObject();
                     weapon = newWeapon.AddComponent<Weapon>();
+
                     weapon.Init(data);
                 }
                 else
@@ -74,13 +77,13 @@ public class Item : MonoBehaviour
                     float nextDamage = data.baseDamage + data.damages[level];
                     int nextCount = data.counts[level];
 
-                    weapon.levelUp(nextDamage, nextCount);
+                    weapon.skill.levelUp(nextDamage, nextCount);
                 }
                 break;
 
             // Tốc độ di chuyển, Tốc độ bắn
-            case ItemData.ItemType.Glove:
-            case ItemData.ItemType.Shoe:
+            case ItemType.Glove:
+            case ItemType.Shoe:
                 if (level == 0)
                 {
                     GameObject newGear = new GameObject();
@@ -95,7 +98,7 @@ public class Item : MonoBehaviour
                 break;
 
             // Máu 
-            case ItemData.ItemType.Heal:
+            case ItemType.Heal:
                 GameManager.instance.health = GameManager.instance.maxHealth;
                 break;
             

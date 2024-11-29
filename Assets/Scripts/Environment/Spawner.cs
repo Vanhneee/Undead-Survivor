@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour
     //public float levelTimer;
 
     public  int level;   // Level hiện tại
-    public float timer =0f; // Bộ đếm thời gian
+    public float timer = 0f; // Bộ đếm thời gian
 
 
     void Awake()
@@ -43,7 +43,7 @@ public class Spawner : MonoBehaviour
             Spawn(level);
         }
 
-        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime*0.8f && canSpawnBoss)
+        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime*0.01f && canSpawnBoss)
         {
             SpawnBoss(4);
         }

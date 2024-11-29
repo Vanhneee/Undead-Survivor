@@ -7,16 +7,16 @@ public class BossController : MonoBehaviour
 {
     public GameObject _hudDamageText;
 
-    public EnemyStat _stat;
-    public Rigidbody2D _target;
-    bool _isLive = true;
-    public float _skillcool = 8f;
-    public int _randStat = 50;
-    bool _useSkill = false;
+    public EnemyStat stat;
+    public Rigidbody2D target;
+    bool isLive = true;
+    public float skillcool = 8f;
+    public int randStat = 50;
+    bool useSkill = false;
 
-    private Rigidbody2D _rigid;
-    private SpriteRenderer _sprite;
-    private Animator _anime;
+    private Rigidbody2D rigid;
+    private SpriteRenderer sprite;
+    private Animator animator;
 
     private void Awake()
     {
@@ -25,24 +25,24 @@ public class BossController : MonoBehaviour
 
     protected void Init()
     {
-        _rigid = GetComponent<Rigidbody2D>();
-        _sprite = GetComponent<SpriteRenderer>();
-        _anime = GetComponent<Animator>();
-        _target = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        target = GameObject.FindWithTag("Player").GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        if (!_isLive)
+        if (!isLive)
             return;
 
-        Vector2 dirVec = _target.position - _rigid.position;
+        Vector2 dirVec = target.position - rigid.position;
         if (dirVec.magnitude < 3f)
         {
-            if (_useSkill) return;
+            if (useSkill) return;
             float rd = UnityEngine.Random.Range(0, 100f);
 
-            if (rd < _randStat)
+            if (rd < randStat)
             {
                 Skill1();
             }
@@ -52,46 +52,46 @@ public class BossController : MonoBehaviour
             }
             return;
         }
-        Vector2 nextVec = dirVec.normalized * (_stat.MoveSpeed * Time.fixedDeltaTime);
-        _rigid.MovePosition(_rigid.position + nextVec);
-        
+        Vector2 nextVec = dirVec.normalized * (stat.MoveSpeed * Time.fixedDeltaTime);
+        rigid.MovePosition(rigid.position + nextVec);
+
     }
 
     private void LateUpdate()
     {
-        _sprite.flipX = (_target.position.x - _rigid.position.x < 0) ? false : true;
+        sprite.flipX = (target.position.x - rigid.position.x < 0) ? false : true;
     }
 
     private void OnEnable()
     {
-        _isLive = true;
+        isLive = true;
         //_stat.HP = _stat.MaxHP;
     }
 
     void Skill1()
     {
-        _useSkill = true;
+        useSkill = true;
         print("skill 1");
-        _anime.SetBool("skill1" , true);
-        _anime.SetBool("skill2" , false);
+        animator.SetBool("skill1", true);
+        animator.SetBool("skill2", false);
     }
 
     void Skill2()
     {
-        _useSkill = true;
+        useSkill = true;
         print("skill 2");
-        _anime.SetBool("skill2", true);
-        _anime.SetBool("skill1", false);
+        animator.SetBool("skill2", true);
+        animator.SetBool("skill1", false);
     }
 
     public void OnDamaged(int damage)
     {
-        int calculateDamage = Mathf.Max(damage - _stat.Defense, 1);
-        _stat.HP -= calculateDamage;
-        _rigid.AddForce((_rigid.position - _target.position).normalized * 500f);
+        int calculateDamage = Mathf.Max(damage - stat.Defense, 1);
+        stat.HP -= calculateDamage;
+        rigid.AddForce((rigid.position - target.position).normalized * 500f);
         FloatDamageText(calculateDamage);
 
-        if (_stat.HP <= 0)
+        if (stat.HP <= 0)
         {
             OnDead();
         }
@@ -101,14 +101,14 @@ public class BossController : MonoBehaviour
     {
         GameObject hudText = Instantiate(_hudDamageText);
         hudText.transform.position = transform.position + Vector3.up * 1.5f;
-        hudText.GetComponent<UI_DamageText>()._damage = damage;
+        hudText.GetComponent<UI_DamageText>(). damage = damage;
     }
 
     public void OnDead()
     {
-        _isLive = false;
-        _stat.HP = 0;
-        _anime.Play("Mushromm_Death");
+        isLive = false;
+        stat.HP = 0;
+        animator.Play("Mushromm_Death");
         SpawnExp();
         GameManager.instance.AddExp(10); // Thêm EXP cho người chơi khi Boss chết
     }
@@ -124,7 +124,7 @@ public class BossController : MonoBehaviour
 }
 
 [Serializable]
-public class EnemyStat 
+public class EnemyStat
 {
     public float MoveSpeed = 3.0f;
     public int HP = 100;
@@ -134,5 +134,8 @@ public class EnemyStat
 
 public class UI_DamageText : MonoBehaviour
 {
-    public int _damage;
+    public int damage;
 }
+
+
+

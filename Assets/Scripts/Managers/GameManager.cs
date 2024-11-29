@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        isLive = true;
+        isLive = false;
         if (instance == null)
         {
             instance = this;

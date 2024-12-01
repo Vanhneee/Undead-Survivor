@@ -153,6 +153,7 @@ public class Range : Skill
         }
     }
 }
+
 public class Rake : Skill
 {
     float timelimit = 1f;
@@ -175,19 +176,27 @@ public class Rake : Skill
             return;
 
         Vector3 targetPos = player.scanner.nearestTarget.position;
-        Vector3 dir = targetPos - skillObj.position;
-        dir = dir.normalized;
+        Vector3 dir = (targetPos - skillObj.position).normalized;
 
-        // Lấy một viên đạn từ Object Pool
-        Transform rake = GameManager.instance.pool.Get(prefabId).transform;
+        for (int i = 0; i <= count; i++) // Tăng số lượng rake dựa trên count
+        {
+            // Tính toán góc lệch để phân bổ rake đều xung quanh
+            float angle = (360f / count) * i;
+            Quaternion rotation = Quaternion.Euler(0, 0, angle);
+            Vector3 adjustedDir = rotation * dir;
 
-        // khởi tạo góc quay
-        rake.position = skillObj.position;
+            // Lấy một đối tượng từ Object Pool
+            Transform rake = GameManager.instance.pool.Get(prefabId).transform;
 
-        // tạo skill
-        rake.GetComponent<Bullet>().Init(damage, dir, true);
+            // Thiết lập vị trí và khởi tạo skill
+            rake.position = skillObj.position;
+            rake.rotation = Quaternion.LookRotation(Vector3.forward,adjustedDir); // xoay đúng hướng
+            rake.GetComponent<Bullet>().Init(damage, adjustedDir, true);
+        }
     }
+
 }
+
 public class SpinningSkill : Skill
 {
     int curLv = 0;

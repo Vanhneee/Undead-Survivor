@@ -87,18 +87,13 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(!GameManager.instance.isLive)
+        if(!GameManager.instance.isLive ||  !collision.gameObject.CompareTag("Enemy"))
             return;
-
+        // nhan damge
         GameManager.instance.health -= Time.deltaTime * 10 ;
 
-        if(GameManager.instance.health < 0)
+        if(GameManager.instance.health < 0) 
         {
-            for(int index = 2; index < transform.childCount; index++)
-            {
-                transform.GetChild(index).gameObject.SetActive(false);
-            }
-
             animator.SetTrigger("Dead");
             GameManager.instance.GameOver();
         }

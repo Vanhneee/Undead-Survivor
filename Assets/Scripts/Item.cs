@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour
@@ -12,19 +13,16 @@ public class Item : MonoBehaviour
     public Gear gear;
 
     UnityEngine.UI.Image icon;
-    Text textLevel;
-    Text textName;
-    Text textDesc;
+    public TextMeshProUGUI textLevel;
+    public TextMeshProUGUI textName;
+    public TextMeshProUGUI textDesc;
 
     private void Awake()
     {
         icon = GetComponentsInChildren<Image>()[1];
         icon.sprite = data.itemIcon;
 
-        Text[] texts = GetComponentsInChildren<Text>();
-        textLevel = texts[0];
-        textName = texts[1];
-        textDesc = texts[2];
+        
         textName.text = data.itemName;
     }
 

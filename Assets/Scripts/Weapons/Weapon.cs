@@ -32,6 +32,7 @@ public class Weapon : MonoBehaviour
             ItemType.FireBall or
             ItemType.Melee => new SpinningSkill(data),
             ItemType.Rake => new Rake(data),
+            _=> null,
         };
         skill = newSkill;
         skill.skillObj = this.transform;

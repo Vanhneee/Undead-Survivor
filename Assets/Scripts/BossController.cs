@@ -18,6 +18,7 @@ public class BossController : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator animator;
 
+    bool ishit = false;
     private void Awake()
     {
         Init();
@@ -35,16 +36,25 @@ public class BossController : MonoBehaviour
     {
         if (!isLive)
             return;
-
         Vector2 dirVec = target.position - rigid.position;
-        if (dirVec.magnitude < 3f)
+        if(dirVec.magnitude >5f && !useSkill)
         {
-            if (useSkill) return;
-            float rd = UnityEngine.Random.Range(0, 100f);
+            Vector3 nextVec = dirVec.normalized * (stat.MoveSpeed * Time.fixedDeltaTime);
+            transform.position += nextVec;
+            rigid.velocity = Vector2.zero;
+        }
+        if (dirVec.magnitude < 10f)
+        {
+
+            if (useSkill )
+            {
+                return;
+            }
+            float rd = UnityEngine.Random.Range(0, 49f);
 
             if (rd < randStat)
             {
-                Skill1();
+                StartCoroutine(Skill1());
             }
             else
             {
@@ -52,8 +62,6 @@ public class BossController : MonoBehaviour
             }
             return;
         }
-        Vector2 nextVec = dirVec.normalized * (stat.MoveSpeed * Time.fixedDeltaTime);
-        rigid.MovePosition(rigid.position + nextVec);
 
     }
 
@@ -67,37 +75,56 @@ public class BossController : MonoBehaviour
         isLive = true;
         //_stat.HP = _stat.MaxHP;
     }
-
-    void Skill1()
+    // Skills
+    IEnumerator  Skill1()
     {
         useSkill = true;
-        print("skill 1");
-        animator.SetBool("skill1", true);
-        animator.SetBool("skill2", false);
+
+        Vector3 dir = (target.position - rigid.position);
+
+        Debug.DrawRay(transform.position, dir);
+        yield return new WaitForFixedUpdate();
+        //print("skill 1");
+        rigid.AddForce(dir.normalized * 15f,ForceMode2D.Impulse);
+        yield return new WaitForSeconds(1f);
+        rigid.velocity = Vector2.zero;
+        yield return new WaitForSeconds(2f);
+        useSkill = false;
     }
 
     void Skill2()
-    {
-        useSkill = true;
+    {   
         print("skill 2");
-        animator.SetBool("skill2", true);
-        animator.SetBool("skill1", false);
+
     }
 
-    public void OnDamaged(int damage)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        int calculateDamage = Mathf.Max(damage - stat.Defense, 1);
+        if (collision == null || !collision.CompareTag("Bullet")) return;
+        
+        Bullet b = collision.GetComponent<Bullet>();
+        OnDamaged(b.damage);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        print("exit trigger");
+        animator.Play("boss_walk");
+    }
+    #region sub Method
+    public void OnDamaged(float damage)
+    {
+        float calculateDamage = Mathf.Max(damage - stat.Defense, 1);
         stat.HP -= calculateDamage;
-        rigid.AddForce((rigid.position - target.position).normalized * 500f);
-        FloatDamageText(calculateDamage);
-
+        rigid.AddForce((rigid.position - target.position).normalized * 1f);
+        //FloatDamageText(calculateDamage);
+        animator.Play("boss_Hit");
         if (stat.HP <= 0)
         {
             OnDead();
         }
     }
 
-    void FloatDamageText(int damage)
+    void FloatDamageText(float damage)
     {
         GameObject hudText = Instantiate(_hudDamageText);
         hudText.transform.position = transform.position + Vector3.up * 1.5f;
@@ -108,7 +135,8 @@ public class BossController : MonoBehaviour
     {
         isLive = false;
         stat.HP = 0;
-        animator.Play("Mushromm_Death");
+        animator.Play("boss_dead");
+        gameObject.SetActive(false);
         SpawnExp();
         GameManager.instance.AddExp(10); // Thêm EXP cho người chơi khi Boss chết
     }
@@ -121,20 +149,21 @@ public class BossController : MonoBehaviour
             expGo.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f), 0);
         }
     }
+    #endregion
 }
 
 [Serializable]
 public class EnemyStat
 {
     public float MoveSpeed = 3.0f;
-    public int HP = 100;
-    public int MaxHP = 100;
-    public int Defense = 10;
+    public float HP = 100;
+    public float MaxHP = 100;
+    public float Defense = 10;
 }
 
 public class UI_DamageText : MonoBehaviour
 {
-    public int damage;
+    public float damage;
 }
 
 

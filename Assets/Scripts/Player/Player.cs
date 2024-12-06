@@ -87,10 +87,18 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(!GameManager.instance.isLive ||  !collision.gameObject.CompareTag("Enemy"))
+        if(!GameManager.instance.isLive || collision == null)
             return;
         // nhan damge
-        GameManager.instance.health -= Time.deltaTime * 10 ;
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            GameManager.instance.health -= Time.deltaTime * 10;
+        }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            GameManager.instance.health -= boss.stat.Damage;
+        }
 
         if(GameManager.instance.health < 0) 
         {
@@ -99,6 +107,20 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!GameManager.instance.isLive || (!collision.gameObject.CompareTag("Bullet")) || collision == null)
+            return;
+        Bullet b = collision.GetComponent<Bullet>();
+        if (!b.parent.CompareTag("Enemy") && !b.parent.CompareTag("Boss")) return;
+        GameManager.instance.health -= b.damage;
+
+        if (GameManager.instance.health < 0)
+        {
+            animator.SetTrigger("Dead");
+            GameManager.instance.GameOver();
+        }
+    }
 
     public void ChangeCharacter(int characterId)
     {

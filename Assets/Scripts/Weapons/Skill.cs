@@ -67,7 +67,7 @@ public abstract class Skill
             rightHand = GameObject.FindWithTag("HandRight")?.GetComponent<Hand>();
         }
 
-        if (rightHand != null)
+        if (rightHand != null && data.hand != null)
         {
             rightHand.spriteR.sprite = data.hand;
             rightHand.gameObject.SetActive(true);
@@ -149,7 +149,7 @@ public class Range : Skill
             bullet.position = rightHand.muzzle.position;
             bullet.rotation = Quaternion.FromToRotation(Vector3.up, dirrec);
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
-            bulletComponent.Init(damage, dirrec, true); // Khởi tạo viên đạn
+            bulletComponent.Init(damage, dirrec,player.transform, (15f, 20f), true); // Khởi tạo viên đạn
         }
     }
 }
@@ -191,7 +191,7 @@ public class Rake : Skill
             // Thiết lập vị trí và khởi tạo skill
             rake.position = skillObj.position;
             rake.rotation = Quaternion.LookRotation(Vector3.forward,adjustedDir); // xoay đúng hướng
-            rake.GetComponent<Bullet>().Init(damage, adjustedDir, true);
+            rake.GetComponent<Bullet>().Init(damage, adjustedDir, player.transform, (15f, 20f), true);
         }
     }
 
@@ -242,7 +242,7 @@ public class SpinningSkill : Skill
             weapon.Translate(Vector3.up * radius, Space.Self);
 
             // Khởi tạo thông số vũ khí
-            weapon.GetComponent<Bullet>().Init(damage, Vector3.zero); // -1 là Infinity Per
+            weapon.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform,(15f,20f)); // -1 là Infinity Per
         }
     }
 }

@@ -50,7 +50,7 @@ public class BossController : MonoBehaviour
             {
                 return;
             }
-            float rd = UnityEngine.Random.Range(0, 49f);
+            float rd = UnityEngine.Random.Range(0, 100f);
 
             if (rd < randStat)
             {
@@ -58,7 +58,7 @@ public class BossController : MonoBehaviour
             }
             else
             {
-                Skill2();
+                StartCoroutine(Skill2());
             }
             return;
         }
@@ -68,8 +68,20 @@ public class BossController : MonoBehaviour
     private void LateUpdate()
     {
         sprite.flipX = (target.position.x - rigid.position.x < 0) ? false : true;
+        if (GameManager.instance.gameWin)
+        {
+            StartCoroutine(hitAndDead());
+        }
     }
+    IEnumerator hitAndDead()
+    {
+        animator.Play("boss_Hit");
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        animator.Play("boss_dead");
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
 
+        OnDead();
+    }
     private void OnEnable()
     {
         isLive = true;
@@ -92,17 +104,32 @@ public class BossController : MonoBehaviour
         useSkill = false;
     }
 
-    void Skill2()
+    IEnumerator Skill2()
     {   
         print("skill 2");
+        useSkill = true;
+        yield return new WaitForEndOfFrame();
 
+        GameObject bulletobj = GameManager.instance.pool.Get(6);
+        bulletobj.transform.position = rigid.position;
+        Bullet bullet = bulletobj.GetComponent<Bullet>();
+        Vector3 dir =(target.position - rigid.position).normalized;
+        bullet.Init(10, dir,transform, (5f, 10f) , true);
+        bulletobj.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+        rigid.velocity = Vector2.zero;
+        yield return new WaitForSeconds(2f);
+        useSkill = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision == null || !collision.CompareTag("Bullet")) return;
+        if (collision == null || !collision.CompareTag("Bullet") || collision == null) 
+            return;
         
         Bullet b = collision.GetComponent<Bullet>();
+        if(!b.parent.CompareTag("Player")) return;
         OnDamaged(b.damage);
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -159,6 +186,7 @@ public class EnemyStat
     public float HP = 100;
     public float MaxHP = 100;
     public float Defense = 10;
+    public float Damage = 10f;
 }
 
 public class UI_DamageText : MonoBehaviour

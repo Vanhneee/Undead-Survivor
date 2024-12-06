@@ -8,23 +8,25 @@ public class Bullet : MonoBehaviour
     public float damage;
     public Vector3 dir;
     public float speed ;
-    bool isLife;
+    bool canDead;
     public float timeLife;
+    public Transform parent;
 
-    public void Init(float damage, Vector3 dir , bool isLife = false )
+    public void Init(float damage, Vector3 dir, Transform parent, (float,float) speed , bool canDead = false)
     {
         this.damage = damage;
         this.dir = dir;
-        this.isLife = isLife;
+        this.parent = parent;
+        this.canDead = canDead;
         timeLife = Random.Range(5f, 10f);
-        speed = Random.Range(15f, 20f);
+        this.speed = Random.Range(speed.Item1, speed.Item2);
     }
 
     private void Update()
     {
         this.transform.position += dir * speed * Time.deltaTime;
 
-        if (!isLife) return;
+        if (!canDead) return;
 
         timeLife -= Time.deltaTime;
         if(timeLife <= 0  )
@@ -34,10 +36,12 @@ public class Bullet : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy") || !isLife)
+        if (!canDead)
             return;
-
-        gameObject.SetActive(false);
+        if((collision.CompareTag("Enemy") && parent.CompareTag("Player")) || 
+            (collision.CompareTag("Player") && (parent.CompareTag("Enemy") || parent.CompareTag("Boss")))
+            )
+            gameObject.SetActive(false);
         
     }
 }

@@ -32,7 +32,10 @@ public class Enemy : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
     }
-
+    private void Start()
+    {
+        
+    }
     void FixedUpdate()
     {
         if (!GameManager.instance.isLive)
@@ -47,7 +50,19 @@ public class Enemy : MonoBehaviour
         rigid.velocity = Vector2.zero; // Đặt vận tốc của Rigidbody2D về 0
         spriter.flipX = target.position.x < rigid.position.x; // lật trái phải Enemy
     }
-
+    private void LateUpdate()
+    {
+        if (GameManager.instance.gameWin) 
+        {
+            StartCoroutine(hitAndDead());
+        }
+    }
+    IEnumerator hitAndDead()
+    {
+        anim.SetBool("Dead", true);
+        yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        Death();
+    }
     // Alive
     void OnEnable()
     {
@@ -71,10 +86,11 @@ public class Enemy : MonoBehaviour
     // Dead
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet") || !isLive)
+        if (!collision.CompareTag("Bullet")  || !isLive || collision == null)
             return;
-
-        health -= collision.GetComponent<Bullet>().damage; // máu bị trừ nếu va phải weapon
+        Bullet b = collision.GetComponent<Bullet>();
+        if (!b.parent.CompareTag("Player")) return;
+            health -= collision.GetComponent<Bullet>().damage; // máu bị trừ nếu va phải weapon
 
         if (health > 0)
         {

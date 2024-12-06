@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - HandRight
   - Fireball
+  - Boss
   layers:
   - Default
   - TransparentFX

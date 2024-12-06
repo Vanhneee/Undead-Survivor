@@ -29,18 +29,18 @@ public class Spawner : MonoBehaviour
             return;
 
         timer += Time.deltaTime; 
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 30f), spawnData.Length - 1); // Mỗi 30s sinh ra 1 loại quái mới mạnh hơn
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 45f), spawnData.Length - 1); // Mỗi 45s sinh ra 1 loại quái mới mạnh hơn
         
         if (timer > spawnData[level].spawnTime) // Kiểm tra thời gian spawn
         {
 
             timer = 0;
-            //// Sinh tất cả các loại quái vật từ level 0 đến level hiện tại
-            //for (int i = 0; i <= level; i++)
-            //{
-            //    Spawn(i);
-            //}
-            Spawn(level);
+            // Sinh tất cả các loại quái vật từ level 0 đến level hiện tại
+            for (int i = 0; i <= level; i++)
+            {
+                Spawn(i);
+            }
+            //Spawn(level);
         }
 
         if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime*0.01f && canSpawnBoss)

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("# Game Control")]
     public bool isLive;
+    public bool gameWin;
     public float gameTime;
     public float maxGameTime;
 
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public LevelUp uiLevelUp;
     public Result uiResult;
-    public GameObject enemyCleaner;
 
     [Header("Prefab Settings")]
     public GameObject expPrefab;
@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
     IEnumerator GameVictoryRoutine()
     {
         isLive = false;
-        enemyCleaner.SetActive(true);  
 
         yield return new WaitForSeconds(0.5f);
 
@@ -112,9 +111,10 @@ public class GameManager : MonoBehaviour
 
         gameTime += Time.deltaTime;
 
-        if (gameTime > maxGameTime)
+        if (gameTime >= maxGameTime)
         {
             gameTime = maxGameTime;
+            gameWin = true;
             GameVictory();
         }
     }
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
     public void Stop()
     {
         isLive = false;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void Resume()

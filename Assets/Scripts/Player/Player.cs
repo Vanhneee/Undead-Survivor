@@ -9,16 +9,16 @@ public class Player : MonoBehaviour
     public float speed; 
     public Vector2 inputVec;    // Vector lưu trữ hướng di chuyển                              
     public Scanner scanner;     
-    public Hand[] hands;
+    public Hand[] hands;        // Hiển thị vũ khí
     public RuntimeAnimatorController[] animCon;
-    private Rigidbody2D rigid;      // Rigidbody2D để di chuyển đối tượng
-    private SpriteRenderer spriter; // Để thay đổi hình ảnh nhân vật
-    private Animator animator;      // Để điều khiển các animation
+
+    private Rigidbody2D rigid;      
+    private SpriteRenderer spriter; 
+    private Animator animator;
 
     public void Awake()
 
     {
-        // Lấy các thành phần trên đối tượng cụ thể
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -28,25 +28,18 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
-        // Đảm bảo rằng GameManager và Animator đã được khởi tạo
-        if (GameManager.instance != null && animator != null)
+        speed *= Character.Speed;
+        // Cập nhật AnimatorController của nhân vật
+        if (GameManager.instance != null && animator != null &&
+            GameManager.instance.playerId < animCon.Length)
         {
-            // Cập nhật AnimatorController của nhân vật dựa trên playerId
-            if (GameManager.instance.playerId < animCon.Length)
-            {
-                animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
-            }
-            else
-            {
-                Debug.LogError("Player ID is out of bounds for animCon array.");
-            }
+            animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
         }
         else
         {
-            Debug.LogError("GameManager or Animator is not properly initialized.");
+            Debug.LogError("Invalid GameManager instance, animator, or playerId.");
         }
     }
-
 
     public void Update()
     {
@@ -63,10 +56,9 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
-        // Di chuyển đối tượng dựa trên input và tốc độ di chuyển
+        // di chuyen Player
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
 
-        // Di chuyen player den vi tri tiep theo
         rigid.MovePosition(rigid.position + nextVec);
     }
 
@@ -78,7 +70,6 @@ public class Player : MonoBehaviour
         // set animator chuyển động
         animator.SetFloat("Speed", inputVec.magnitude);
 
-        // lật trái phải
         if (inputVec.x != 0) 
         {
             spriter.flipX = inputVec.x < 0;
@@ -89,7 +80,7 @@ public class Player : MonoBehaviour
     {
         if(!GameManager.instance.isLive || collision == null)
             return;
-        // nhan damge
+        // nhận damage
         if (collision.gameObject.CompareTag("Enemy"))
         {
             GameManager.instance.health -= Time.deltaTime * 10;
@@ -139,5 +130,28 @@ public class Player : MonoBehaviour
         animator.runtimeAnimatorController = animCon[characterId];
     }
 
-    
+    // Lấy dữ liệu từ người chơi (Player), chuyển sang JSON và lưu vào file save.save.
+    public void Save(ref PlayerSaveData data)
+    {
+        data.Position = transform.position;
+        data.Health = GameManager.instance.health; 
+        data.Level = GameManager.instance.level; 
+        data.Exp = GameManager.instance.exp;
+        data.Kill = GameManager.instance.kill;
+        data.Time = GameManager.instance.gameTime;
+    }
+
+    //Đọc dữ liệu từ file, chuyển JSON -> đối tượng (Player) và Load game
+    public void Load(PlayerSaveData data)
+    {
+        transform.position = data.Position;
+        GameManager.instance.health = data.Health; 
+        GameManager.instance.level = data.Level; 
+        GameManager.instance.exp = data.Exp; 
+        GameManager.instance.kill = data.Kill;
+        GameManager.instance.gameTime = data.Time;
+    }
 }
+
+
+

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
+    
     [Header("# Game Control")]
     public bool isLive;
     public bool gameWin;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     public int[] nextExp = { 3, 5, 10, 100, 150, 210, 280, 360, 450, 600 };
 
     [Header("# Game Object")]
+    public GameData gameData;
     public Player player;
     public PoolManager pool;
     public LevelUp uiLevelUp;
@@ -46,7 +48,37 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
+
+    private void Update()
+    {
+        if (!isLive)
+        {
+            return;
+        }
+
+        gameTime += Time.deltaTime;
+
+        if (gameTime >= maxGameTime)
+        {
+            gameTime = maxGameTime;
+            gameWin = true;
+            GameVictory();
+        }
+
+        // save load game
+        if (Keyboard.current.numpad0Key.wasReleasedThisFrame)
+        {
+            SaveSystemm.Save();
+        }
+
+        if (Keyboard.current.numpad1Key.wasReleasedThisFrame)
+        {
+            SaveSystemm.Load();
+        }
+    }
+
 
     public void GameStart(int id)
     {
@@ -61,9 +93,10 @@ public class GameManager : MonoBehaviour
         uiLevelUp.Select(playerId % 2);
         isLive = true;
         Resume();
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
-
-
 
     public void GameOver() 
     {
@@ -79,6 +112,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
+
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     public void GameVictory()
@@ -95,6 +131,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
+
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }
 
     public void GameRetry()
@@ -102,23 +141,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    void Update()
-    {
-        if (!isLive)
-        {
-            return;
-        }
-
-        gameTime += Time.deltaTime;
-
-        if (gameTime >= maxGameTime)
-        {
-            gameTime = maxGameTime;
-            gameWin = true;
-            GameVictory();
-        }
-    }
-
+    // kinh nghiệm
     public void AddExp(int amount)
     {
         if (!isLive) 
@@ -130,28 +153,20 @@ public class GameManager : MonoBehaviour
         {
             exp -= nextExp[level];
             LevelUp();
-        }
-        
+        }  
     }
 
+    // Hiển thị giao diện Level Up
     private void LevelUp()
     {
         level++;
-        Debug.Log("Level Up! Current Level: " + level);
         uiLevelUp.Show();
-        // Cập nhật các thuộc tính khác nếu cần (như tăng máu, tăng sức mạnh, v.v.)
     }
-
-    public void GetExp()
-    {
-    
-    }
-
 
     public void Stop()
     {
         isLive = false;
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
     }
 
     public void Resume()

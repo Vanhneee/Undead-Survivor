@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
         this.dir = dir;
         this.parent = parent;
         this.canDead = canDead;
-        timeLife = Random.Range(5f, 10f);
+        timeLife = Random.Range(50, 80f);
         this.speed = Random.Range(speed.Item1, speed.Item2);
     }
 

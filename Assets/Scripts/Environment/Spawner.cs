@@ -11,16 +11,14 @@ public class Spawner : MonoBehaviour
     public SpawnData[] spawnData;
 
     bool canSpawnBoss = true;
-    //public float levelTimer;
 
-    public  int level;   // Level hiện tại
-    public float timer = 0f; // Bộ đếm thời gian
-
+    public  int level;  
+    public float timer = 0f; 
 
     void Awake()
     {
-        spawnPoint = GetComponentsInChildren<Transform>(); // Lấy điểm spawn
-        //levelTimer = GameManager.instance.maxGameTime / spawnData.Length;
+        spawnPoint = GetComponentsInChildren<Transform>(); 
+        
     }
 
     void Update()
@@ -29,21 +27,19 @@ public class Spawner : MonoBehaviour
             return;
 
         timer += Time.deltaTime; 
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 45f), spawnData.Length - 1); // Mỗi 45s sinh ra 1 loại quái mới mạnh hơn
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 120f), spawnData.Length - 1); // 120s spawn new enemy
         
-        if (timer > spawnData[level].spawnTime) // Kiểm tra thời gian spawn
+        if (timer > spawnData[level].spawnTime) 
         {
-
             timer = 0;
-            // Sinh tất cả các loại quái vật từ level 0 đến level hiện tại
+            // Spawn quái vật từ level 0 đến level hiện tại
             for (int i = 0; i <= level; i++)
             {
                 Spawn(i);
             }
-            //Spawn(level);
         }
 
-        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime*0.01f && canSpawnBoss)
+        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime * 0.8f && canSpawnBoss)
         {
             SpawnBoss(4);
         }
@@ -68,7 +64,6 @@ public class Spawner : MonoBehaviour
 
 }
 
-// Hiển thị các thuộc tính lên Inspector
 [System.Serializable]
 public class SpawnData
 {

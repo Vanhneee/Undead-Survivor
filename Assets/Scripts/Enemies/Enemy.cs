@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
-    public GameObject expPrefab; // Prefab của exp để tạo khi enemy chết
+    public GameObject expPrefab; 
 
     bool isLive;
 
@@ -41,14 +41,15 @@ public class Enemy : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
-        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) // đẩy lui enemy
+        if (!isLive || anim.GetCurrentAnimatorStateInfo(0).IsName("Hit")) // hit enemy
             return;
 
         Vector2 dirVec = target.position - rigid.position; // vector hướng tới mục tiêu
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime; // vector di chuyển
-        rigid.MovePosition(rigid.position + nextVec); // Di chuyển Rigidbody2D tới vị trí mới
-        rigid.velocity = Vector2.zero; // Đặt vận tốc của Rigidbody2D về 0
-        spriter.flipX = target.position.x < rigid.position.x; // lật trái phải Enemy
+
+        rigid.MovePosition(rigid.position + nextVec); 
+        rigid.velocity = Vector2.zero; 
+        spriter.flipX = target.position.x < rigid.position.x; 
     }
     private void LateUpdate()
     {
@@ -96,6 +97,7 @@ public class Enemy : MonoBehaviour
         {
             anim.SetTrigger("Hit");
             StartCoroutine(KnockBack());
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
         }
         else
         {
@@ -112,13 +114,15 @@ public class Enemy : MonoBehaviour
         anim.SetBool("Dead", true);
         OnDeath?.Invoke();
         GameManager.instance.kill++;
-        GameManager.instance.GetExp();
+
+        //if(GameManager.instance.isLive)
+        //    AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
 
         // Thêm xác suất rơi EXP (80%)
         if (expPrefab != null)
         {
-            int dropChance = Random.Range(0, 100); // Tạo giá trị ngẫu nhiên từ 0 đến 99
-            if (dropChance < 80) // Nếu giá trị nhỏ hơn 80, tức là 80% xác suất
+            int dropChance = Random.Range(0, 100);
+            if (dropChance < 80)
             {
                 Instantiate(expPrefab, transform.position, Quaternion.identity);
             }

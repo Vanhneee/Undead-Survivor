@@ -15,6 +15,7 @@ public abstract class Skill
     public Player player;
     public Transform skillObj;
 
+    // tăng damage, số lượng vũ khí
     public virtual void levelUp(float damage, int count)
     {
         this.damage = damage;
@@ -28,7 +29,7 @@ public abstract class Skill
         player = GameManager.instance.player;
         // Property Set
         id = data.itemId;
-        damage = data.baseDamage;
+        damage = data.baseDamage * Character.Damage;
         count = data.baseCount;
         radius = data.radius;
 
@@ -42,31 +43,29 @@ public abstract class Skill
             }
         }
 
-        // Thiết lập tốc độ xoay và các thuộc tính khác
+        // tốc độ xoay , bắn
         switch (id)
         {
-            case 6:
-                speed = 2f;
+            case 0:
+                speed = -150;
+                break;
+            case 1:
+                speed = 0.8f;
                 break;
             case 5:
                 speed = 100;
-                //SpinningSkill();
                 break;
-            case 0:
-                speed = -150;
-               // SpinningSkill();
-                break;
-            default:
-                speed = 0.8f;
-                break;
+            case 6:
+                speed = 2f;
+                break;        
         }
 
-        // Gán Right Hand tự động tìm theo tag
         if (rightHand == null)
         {
             rightHand = GameObject.FindWithTag("HandRight")?.GetComponent<Hand>();
         }
 
+        // Đưa vũ khí cho Player
         if (rightHand != null && data.hand != null)
         {
             rightHand.spriteR.sprite = data.hand;
@@ -75,11 +74,6 @@ public abstract class Skill
     }
     public abstract void Excute() ;
     
-    
-
-
-    
-
 }
 
 public class Range : Skill
@@ -109,7 +103,6 @@ public class Range : Skill
         Vector3 dir = (rightHand.muzzle.position - player.transform.position).normalized;
         dir.z = 0; // Đảm bảo chỉ hoạt động trên mặt phẳng 2D
 
-        //print(dir);
         if (count <= 3)
         {
             //1 dir
@@ -118,7 +111,6 @@ public class Range : Skill
         else
         {
             //tăng dir lv 4 :  3 dir , lv5 : 5 dir : lv6 : 7 dir
-            //print((count - 3) * 2);
             FireRange(dir, (count - 3) * 2);
         }
 
@@ -150,6 +142,8 @@ public class Range : Skill
             bullet.rotation = Quaternion.FromToRotation(Vector3.up, dirrec);
             Bullet bulletComponent = bullet.GetComponent<Bullet>();
             bulletComponent.Init(damage, dirrec,player.transform, (15f, 20f), true); // Khởi tạo viên đạn
+
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.Range);
         }
     }
 }
@@ -229,7 +223,7 @@ public class SpinningSkill : Skill
             else
             {
                 weapon = GameManager.instance.pool.Get(prefabId).transform;
-                weapon.parent = skillObj; // Gán làm con của đối tượng
+                weapon.parent = skillObj; 
             }
 
             // Đặt lại vị trí, góc quay và xoay vũ khí
@@ -244,5 +238,7 @@ public class SpinningSkill : Skill
             // Khởi tạo thông số vũ khí
             weapon.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform,(15f,20f)); // -1 là Infinity Per
         }
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Melle);
     }
 }

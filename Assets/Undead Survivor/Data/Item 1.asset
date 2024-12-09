@@ -18,7 +18,7 @@ MonoBehaviour:
   radius: 0
   itemDesc: Range Damage +10%
   itemIcon: {fileID: -205726582, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
-  baseDamage: 20
+  baseDamage: 10
   baseCount: 1
   damages:
   - 0

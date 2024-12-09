@@ -44,11 +44,6 @@ public class HUB : MonoBehaviour
                 break;
 
             case InfoType.Time:
-                //// Tính toán thời gian đã trôi qua
-                //float elapsedTime = GameManager.instance.gameTime;
-                //int minutes = Mathf.FloorToInt(elapsedTime / 60);
-                //int seconds = Mathf.FloorToInt(elapsedTime % 60);
-
                 // Tính toán thời gian còn lại
                 float remainingTime = GameManager.instance.maxGameTime - GameManager.instance.gameTime;
                 int minutes = Mathf.FloorToInt(remainingTime / 60);

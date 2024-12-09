@@ -1,17 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
     public Skill skill;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (!GameManager.instance.isLive || skill == null)
@@ -19,10 +13,10 @@ public class Weapon : MonoBehaviour
 
         skill.Excute();
     }
+    // setup vũ khí, kĩ năng
     public void Init(ItemData data)
     {
-        // Basic Set
-
+        
         name = "Weapon " + data.itemId;
         transform.parent = GameManager.instance.player.transform;
         transform.localPosition = Vector3.zero;

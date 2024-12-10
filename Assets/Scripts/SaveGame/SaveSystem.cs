@@ -2,16 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
-public class SaveSystemm
+public class SaveSystem
 {
     private static SaveData saveData = new SaveData();
-
-    [System.Serializable]
-    public struct SaveData
-    {
-        public PlayerSaveData PlayerData;
-    }
 
     // tạo file save
     public static string SaveFileName()
@@ -34,30 +29,28 @@ public class SaveSystemm
 
     private static void HandleSaveData()
     {
-        GameManager.instance.player.Save(ref saveData.PlayerData);
+        GameManager.instance.player.Save(ref saveData.playerSaveData);
     }
 
     public static void Load()
     {
         string saveContent = File.ReadAllText(SaveFileName());
+ 
+        GameManager.instance.gameData.playerSaveData = JsonUtility.FromJson<SaveData>(saveContent).playerSaveData;
+        HandleLoadData();
+    }
 
-        GameManager.instance.gameData.playerSaveData = JsonUtility.FromJson<SaveData>(saveContent).PlayerData;
-        //HandleLoadData();
+    private static void print(string v)
+    {
+        throw new NotImplementedException();
     }
 
     private static void HandleLoadData()
     {
-        //GameManager.instance.player.Load(saveData.PlayerData);
-        Debug.Log(GameManager.instance.player == null ? "Player bị null" : "Player tồn tại");
-
-        if (GameManager.instance.player != null)
+        if(GameManager.instance.player != null)
         {
-            GameManager.instance.player.Load(saveData.PlayerData);
-        }
-        else
-        {
-            Debug.LogError("Player không tồn tại! Không thể load dữ liệu.");
-        }
+            GameManager.instance.player.Load(saveData.playerSaveData);
+        }        
     }
 }
 

@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public int[] nextExp = { 3, 5, 10, 100, 150, 210, 280, 360, 450, 600 };
 
     [Header("# Game Object")]
+    public GameObject uiHUB;
+    public GameObject uiPause;
+    public GameObject uiGameStart;
     public GameData gameData;
     public Player player;
     public PoolManager pool;
@@ -35,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     [Header("# Character Settings")]
     public RuntimeAnimatorController[] animControllers;
+
+    
 
 
     private void Awake()
@@ -48,7 +53,24 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void Start()
+    {
+        if (uiGameStart == null) return;
+
+        if (gameData.option == Option.NewGame)
+        {
+            uiGameStart.SetActive(true);
+        }
+        else
+        {
+            uiGameStart.SetActive(false);
+            uiHUB.SetActive(true);
+            uiPause.SetActive(true);
+            GameStart(gameData.playerSaveData.Id);
+            player.Load(gameData.playerSaveData);
+        }
     }
 
     private void Update()
@@ -70,14 +92,15 @@ public class GameManager : MonoBehaviour
         // save load game
         if (Keyboard.current.numpad0Key.wasReleasedThisFrame)
         {
-            SaveSystemm.Save();
+            SaveSystem.Save();
         }
 
         if (Keyboard.current.numpad1Key.wasReleasedThisFrame)
         {
-            SaveSystemm.Load();
+            SaveSystem.Load();
         }
     }
+
 
 
     public void GameStart(int id)
@@ -85,12 +108,12 @@ public class GameManager : MonoBehaviour
         playerId = id;
         health = maxHealth;
 
-        // Gọi hàm ChangeCharacter của Player để thay đổi nhân vật
-        player.ChangeCharacter(playerId);
+        
+        player.ChangeCharacter(playerId); // tao nhan vat
 
-        // Bật nhân vật và bắt đầu trò chơi
+        // StartGame
         player.gameObject.SetActive(true);
-        uiLevelUp.Select(playerId % 2);
+        uiLevelUp.Select(playerId % 2); // lay vu khi
         isLive = true;
         Resume();
 

@@ -33,4 +33,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
+
+    public void Save() 
+    {
+        SaveSystem.Save();
+    }
 }

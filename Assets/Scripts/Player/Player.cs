@@ -113,6 +113,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    
     public void ChangeCharacter(int characterId)
     {
         if (characterId < 0 || characterId >= animCon.Length)
@@ -133,6 +134,7 @@ public class Player : MonoBehaviour
     // Lấy dữ liệu từ người chơi (Player), chuyển sang JSON và lưu vào file save.save.
     public void Save(ref PlayerSaveData data)
     {
+        data.Id = GameManager.instance.playerId;
         data.Position = transform.position;
         data.Health = GameManager.instance.health; 
         data.Level = GameManager.instance.level; 
@@ -144,6 +146,7 @@ public class Player : MonoBehaviour
     //Đọc dữ liệu từ file, chuyển JSON -> đối tượng (Player) và Load game
     public void Load(PlayerSaveData data)
     {
+        
         transform.position = data.Position;
         GameManager.instance.health = data.Health; 
         GameManager.instance.level = data.Level; 

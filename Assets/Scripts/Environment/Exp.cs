@@ -16,7 +16,6 @@ public class Exp : MonoBehaviour
         // Cập nhật số EXP khi nhặt
         GameManager.instance.AddExp(expAmount);
 
-        audioSourceSfx.PlayOneShot(coinSfx);
         GetComponent<SpriteRenderer>().enabled = false;
         Destroy(this.gameObject, 0.3f);
     }

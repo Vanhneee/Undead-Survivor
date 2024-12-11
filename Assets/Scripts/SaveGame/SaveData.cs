@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public struct SaveData
 {
     public PlayerSaveData playerSaveData;
-    public PlayerSkillData playerSkillData;
-    public EnemySaveData enemySaveData;
+    public List<SkillSaveData> skillSaveData;
+    public List<EnemySaveData> enemySaveData;
 }
 
 [System.Serializable]
@@ -21,13 +22,15 @@ public struct PlayerSaveData
 }
 
 [System.Serializable]
-public class PlayerSkillData
+public struct SkillSaveData
 {
-
+    public int prefabId;
+    public int level;
+    public float damage;
 }
 
 [System.Serializable]
-public class EnemySaveData
+public struct EnemySaveData
 {
 
 }

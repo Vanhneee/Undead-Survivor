@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     [Header("# Game Control")]
+
+    public List<SkillSaveData> skills;
+    public bool canSave = false;
+
     public bool isLive;
     public bool gameWin;
     public float gameTime;
@@ -39,8 +43,6 @@ public class GameManager : MonoBehaviour
     [Header("# Character Settings")]
     public RuntimeAnimatorController[] animControllers;
 
-    
-
 
     private void Awake()
     {
@@ -57,6 +59,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SaveSystem.saveData.skillSaveData = new List<SkillSaveData>();
+        SaveSystem.saveData.enemySaveData = new List<EnemySaveData>();
+
         if (uiGameStart == null) return;
 
         if (gameData.option == Option.NewGame)
@@ -69,7 +74,9 @@ public class GameManager : MonoBehaviour
             uiHUB.SetActive(true);
             uiPause.SetActive(true);
             GameStart(gameData.playerSaveData.Id);
-            player.Load(gameData.playerSaveData);
+             
+            //player.Load(gameData.playerSaveData);
+            SaveSystem.Load();
         }
     }
 
@@ -89,7 +96,7 @@ public class GameManager : MonoBehaviour
             GameVictory();
         }
 
-        // save load game
+        // test save load game
         if (Keyboard.current.numpad0Key.wasReleasedThisFrame)
         {
             SaveSystem.Save();

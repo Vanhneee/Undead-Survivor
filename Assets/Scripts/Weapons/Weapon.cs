@@ -10,7 +10,10 @@ public class Weapon : MonoBehaviour
     {
         if (!GameManager.instance.isLive || skill == null)
             return;
-
+        if(GameManager.instance.canSave == true)
+        {
+            skill.Save( SaveSystem.saveData.skillSaveData);
+        }
         skill.Excute();
     }
     // setup vũ khí, kĩ năng
@@ -30,7 +33,6 @@ public class Weapon : MonoBehaviour
         };
         skill = newSkill;
         skill.skillObj = this.transform;
-
         GameManager.instance.player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 }

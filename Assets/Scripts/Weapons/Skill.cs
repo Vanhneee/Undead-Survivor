@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Skill  
+public abstract class Skill
 {
     public int id ;
     public int prefabId;
@@ -72,9 +72,29 @@ public abstract class Skill
             rightHand.gameObject.SetActive(true);
         }
     }
-    public abstract void Excute() ;
+    public abstract void Excute();
+
+
+    public virtual void Save(List<SkillSaveData> data) 
+    {
+        SkillSaveData skill = new SkillSaveData();
+        skill.prefabId = prefabId;
+        skill.level = count;
+        skill.damage = damage;
+
+        data.Add(skill);
+        GameManager.instance.canSave = false;
+        Debug.Log(data.Count);
+    }
+    public virtual void Load(SkillSaveData data) 
+    {
+        prefabId = data.prefabId;
+        count = data.level;
+        damage = data.damage;
+    }
     
 }
+
 
 public class Range : Skill
 {
@@ -236,9 +256,8 @@ public class SpinningSkill : Skill
             weapon.Translate(Vector3.up * radius, Space.Self);
 
             // Khởi tạo thông số vũ khí
-            weapon.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform,(15f,20f)); // -1 là Infinity Per
+            weapon.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform,(15f,20f));
         }
-
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Melle);
     }
 }

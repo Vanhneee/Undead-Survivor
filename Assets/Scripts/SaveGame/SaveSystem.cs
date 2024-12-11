@@ -6,7 +6,7 @@ using System;
 
 public class SaveSystem
 {
-    private static SaveData saveData = new SaveData();
+    public static SaveData saveData = new SaveData();
 
     // tạo file save
     public static string SaveFileName()
@@ -23,13 +23,13 @@ public class SaveSystem
     public static void Save()
     {
         HandleSaveData();
-
         File.WriteAllText(SaveFileName(), JsonUtility.ToJson(saveData, true)); // PlayerSaveData -> JSON
     }
 
     private static void HandleSaveData()
     {
         GameManager.instance.player.Save(ref saveData.playerSaveData);
+        GameManager.instance.canSave = true;
     }
 
     public static void Load()

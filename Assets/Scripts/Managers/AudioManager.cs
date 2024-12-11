@@ -76,7 +76,8 @@ public class AudioManager : MonoBehaviour
             break;
         }
     }
-
+    
+    // tăng giảm âm lượng
 
     public void SoundVolume(float volume)
     {

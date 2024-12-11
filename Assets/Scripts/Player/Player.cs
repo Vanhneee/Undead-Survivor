@@ -146,7 +146,6 @@ public class Player : MonoBehaviour
     //Đọc dữ liệu từ file, chuyển JSON -> đối tượng (Player) và Load game
     public void Load(PlayerSaveData data)
     {
-        
         transform.position = data.Position;
         GameManager.instance.health = data.Health; 
         GameManager.instance.level = data.Level; 

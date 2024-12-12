@@ -12,12 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb6f0b1209499a49a9603344f820ab9, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  option: 0
+  option: 1
   playerSaveData:
     Id: 0
-    Position: {x: -6.8380857, y: 8.427068, z: 0}
-    Health: 99.000015
-    Level: 1
-    Exp: 1
-    Kill: 8
-    Time: 23.814735
+    Position: {x: 6.170188, y: 4.1009398, z: 0}
+    Health: 92.400116
+    Level: 15
+    Exp: 0
+    Kill: 83
+    Time: 105.65463
+  skillSaveData:
+  - type: 0
+    prefabId: 1
+    level: 4
+    damage: 5
+  - type: 5
+    prefabId: 3
+    level: 3
+    damage: 8
+  - type: 6
+    prefabId: 5
+    level: 3
+    damage: 7
+  enemySaveData: []

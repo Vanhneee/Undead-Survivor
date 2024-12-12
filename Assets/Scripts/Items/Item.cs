@@ -27,7 +27,7 @@ public class Item : MonoBehaviour
     }
 
     private void OnEnable()
-    {
+    {  
         UpdateUI();
     }
 
@@ -77,6 +77,7 @@ public class Item : MonoBehaviour
 
                     weapon.skill.levelUp(nextDamage, nextCount);
                 }
+                level = weapon.skill.count;
                 break;
 
             // Tốc độ di chuyển, Tốc độ bắn
@@ -93,23 +94,38 @@ public class Item : MonoBehaviour
                     float nextRate = data.damages[level];
                     gear.LevelUp(nextRate);
                 }
+                level += 1;
                 break;
 
             // Máu 
             case ItemType.Heal:
                 GameManager.instance.health = GameManager.instance.maxHealth;
+                level = 1;
                 break;
             
             // Skill
 
-        }
+        } 
 
-        level++;
         UpdateUI();
 
         if (level >= data.damages.Length)
         {
             GetComponent<Button>().interactable = false;
+        }
+    }
+
+    public void ScanWP_inChildPlayer()
+    {
+       Weapon[] wps = GameManager.instance.player.GetComponentsInChildren<Weapon>();
+        foreach (Weapon wp in wps)
+        {
+            if (wp.skill.type == this.data.itemType) 
+            {
+                weapon = wp;
+                level = wp.skill.count;
+                return;
+            }
         }
     }
 }

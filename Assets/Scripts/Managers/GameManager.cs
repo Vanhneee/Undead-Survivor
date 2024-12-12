@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("# Game Control")]
 
     public List<SkillSaveData> skills;
-    public bool canSave = false;
+    public ItemData[] itemDatas;
 
     public bool isLive;
     public bool gameWin;
@@ -73,10 +73,10 @@ public class GameManager : MonoBehaviour
             uiGameStart.SetActive(false);
             uiHUB.SetActive(true);
             uiPause.SetActive(true);
-            GameStart(gameData.playerSaveData.Id);
+            ContinueGame(gameData.playerSaveData.Id);
              
-            //player.Load(gameData.playerSaveData);
             SaveSystem.Load();
+
         }
     }
 
@@ -95,38 +95,52 @@ public class GameManager : MonoBehaviour
             gameWin = true;
             GameVictory();
         }
-
-        // test save load game
-        if (Keyboard.current.numpad0Key.wasReleasedThisFrame)
-        {
-            SaveSystem.Save();
-        }
-
-        if (Keyboard.current.numpad1Key.wasReleasedThisFrame)
-        {
-            SaveSystem.Load();
-        }
     }
 
-
-
-    public void GameStart(int id)
+    public void NewGame(int id)
     {
         playerId = id;
         health = maxHealth;
 
-        
         player.ChangeCharacter(playerId); // tao nhan vat
 
         // StartGame
         player.gameObject.SetActive(true);
-        uiLevelUp.Select(playerId % 2); // lay vu khi
+        uiLevelUp.Select(playerId % 2); // lấy vũ khí ( PlayerId % 2 => ( 0 -> 1))
         isLive = true;
-        Resume();
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+    }    
+
+    public void ContinueGame(int id)
+    {
+        playerId = id;
+        health = maxHealth;
+
+        player.ChangeCharacter(playerId); // tao nhan vat
+
+        player.gameObject.SetActive(true);
+        isLive = true;
 
         AudioManager.instance.PlayBgm(true);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
+
+    public ItemData GetItemData(ItemType type) 
+    {
+        ItemData itdt = null;
+        foreach (ItemData it in itemDatas) 
+        {
+            if(it.itemType == type) 
+            {
+                itdt = it;
+            }
+        }
+        return itdt;
+    }
+
+
 
     public void GameOver() 
     {
@@ -141,7 +155,7 @@ public class GameManager : MonoBehaviour
 
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
-        Stop();
+        Time.timeScale = 0;
 
         AudioManager.instance.PlayBgm(false);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
@@ -160,7 +174,7 @@ public class GameManager : MonoBehaviour
 
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
-        Stop();
+        Time.timeScale = 0;
 
         AudioManager.instance.PlayBgm(false);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
@@ -193,15 +207,5 @@ public class GameManager : MonoBehaviour
         uiLevelUp.Show();
     }
 
-    public void Stop()
-    {
-        isLive = false;
-        Time.timeScale = 0;
-    }
 
-    public void Resume()
-    {
-        isLive = true;
-        Time.timeScale = 1;
-    }
 }

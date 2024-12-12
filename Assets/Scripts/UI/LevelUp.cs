@@ -17,14 +17,14 @@ public class LevelUp : MonoBehaviour
     {
         Next();
         rect.localScale = Vector3.one;
-        GameManager.instance.Stop();
+        Time.timeScale = 0;
         AudioManager.instance.PlaySfx(AudioManager.Sfx.LevelUp); 
     }
 
     public void Hide()
     {
         rect.localScale = Vector3.zero;
-        GameManager.instance.Resume();
+        Time.timeScale = 1;
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
@@ -39,6 +39,9 @@ public class LevelUp : MonoBehaviour
         foreach (Item item in items)
         {
             item.gameObject.SetActive(false);
+            if (item.weapon != null) continue;
+            item.ScanWP_inChildPlayer();
+          
         }
 
         // Xác định loại vũ khí hiện tại mà nhân vật đang sử dụng

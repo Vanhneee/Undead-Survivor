@@ -7,6 +7,11 @@ public struct SaveData
     public PlayerSaveData playerSaveData;
     public List<SkillSaveData> skillSaveData;
     public List<EnemySaveData> enemySaveData;
+
+    public void Clear()
+    {
+        skillSaveData.Clear(); enemySaveData.Clear();
+    }
 }
 
 [System.Serializable]
@@ -24,6 +29,7 @@ public struct PlayerSaveData
 [System.Serializable]
 public struct SkillSaveData
 {
+    public ItemType type;
     public int prefabId;
     public int level;
     public float damage;

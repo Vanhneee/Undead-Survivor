@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using System.Runtime.CompilerServices;
 
 public class SaveSystem
 {
@@ -28,29 +29,42 @@ public class SaveSystem
 
     private static void HandleSaveData()
     {
-        GameManager.instance.player.Save(ref saveData.playerSaveData);
-        GameManager.instance.canSave = true;
-    }
+        saveData.Clear();
 
+        GameManager.instance.player.Save(ref saveData.playerSaveData);
+        Weapon[] weapons =  GameManager.instance.player.GetComponentsInChildren<Weapon>();
+        if (weapons == null || weapons.Length <= 0) return;
+        foreach (Weapon weapon in weapons) 
+        {
+            weapon.skill.Save(saveData.skillSaveData);
+        }
+    }
+    
     public static void Load()
     {
         string saveContent = File.ReadAllText(SaveFileName());
  
         GameManager.instance.gameData.playerSaveData = JsonUtility.FromJson<SaveData>(saveContent).playerSaveData;
-        HandleLoadData();
-    }
+        GameManager.instance.gameData.skillSaveData = JsonUtility.FromJson<SaveData>(saveContent).skillSaveData;
 
-    private static void print(string v)
-    {
-        throw new NotImplementedException();
+        HandleLoadData();
     }
 
     private static void HandleLoadData()
     {
         if(GameManager.instance.player != null)
         {
-            GameManager.instance.player.Load(saveData.playerSaveData);
-        }        
+            GameManager.instance.player.Load(GameManager.instance.gameData.playerSaveData);
+        } 
+        
+        foreach(SkillSaveData skill in GameManager.instance.gameData.skillSaveData) 
+        {
+            GameObject obj =  new GameObject();
+            Weapon wp = obj.AddComponent<Weapon>();
+            wp.Init(GameManager.instance.GetItemData(skill.type));
+            wp.skill.Load(skill);
+            Debug.Log(skill.type);
+        }
     }
 }
 

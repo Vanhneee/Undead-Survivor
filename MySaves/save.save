@@ -1,17 +1,36 @@
 {
     "playerSaveData": {
-        "Id": 0,
+        "Id": 1,
         "Position": {
-            "x": -13.16551399230957,
-            "y": 9.366401672363282,
+            "x": -14.145402908325196,
+            "y": 16.939172744750978,
             "z": 0.0
         },
         "Health": 100.0,
-        "Level": 1,
-        "Exp": 1,
-        "Kill": 2,
-        "Time": 16.237119674682618
+        "Level": 11,
+        "Exp": 0,
+        "Kill": 54,
+        "Time": 70.23672485351563
     },
-    "skillSaveData": [],
+    "skillSaveData": [
+        {
+            "type": 1,
+            "prefabId": 2,
+            "level": 6,
+            "damage": 12.0
+        },
+        {
+            "type": 6,
+            "prefabId": 5,
+            "level": 3,
+            "damage": 7.0
+        },
+        {
+            "type": 5,
+            "prefabId": 3,
+            "level": 2,
+            "damage": 7.0
+        }
+    ],
     "enemySaveData": []
 }

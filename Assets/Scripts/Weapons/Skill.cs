@@ -14,6 +14,7 @@ public abstract class Skill
     public float timer;
     public Player player;
     public Transform skillObj;
+    public ItemType type;
 
     // tăng damage, số lượng vũ khí
     public virtual void levelUp(float damage, int count)
@@ -24,10 +25,11 @@ public abstract class Skill
         player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
-    public void Init(ItemData data )
+    public void Init(ItemData data)
     {
         player = GameManager.instance.player;
         // Property Set
+        type = data.itemType;
         id = data.itemId;
         damage = data.baseDamage * Character.Damage;
         count = data.baseCount;
@@ -81,10 +83,9 @@ public abstract class Skill
         skill.prefabId = prefabId;
         skill.level = count;
         skill.damage = damage;
+        skill.type = this.type;
 
         data.Add(skill);
-        GameManager.instance.canSave = false;
-        Debug.Log(data.Count);
     }
     public virtual void Load(SkillSaveData data) 
     {
@@ -92,15 +93,16 @@ public abstract class Skill
         count = data.level;
         damage = data.damage;
     }
-    
+  
 }
+
 
 
 public class Range : Skill
 {
     float timelimit = 1f;
 
-    public Range(ItemData data)
+    public Range(ItemData data = null)
     {
         Init(data);
     }
@@ -133,8 +135,6 @@ public class Range : Skill
             //tăng dir lv 4 :  3 dir , lv5 : 5 dir : lv6 : 7 dir
             FireRange(dir, (count - 3) * 2);
         }
-
-
     }
 
     void FireRange(Vector3 dir, float loop = 0)
@@ -172,7 +172,7 @@ public class Rake : Skill
 {
     float timelimit = 1f;
 
-    public Rake(ItemData data)
+    public Rake(ItemData data = null)
     {
         Init(data);
     }
@@ -214,7 +214,7 @@ public class Rake : Skill
 public class SpinningSkill : Skill
 {
     int curLv = 0;
-    public SpinningSkill(ItemData data)
+    public SpinningSkill(ItemData data = null)
     {
         Init(data);
     }

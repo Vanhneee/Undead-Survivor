@@ -46,7 +46,6 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
         
-        // Lấy input từ bàn phím (WASD hoặc các phím mũi tên)
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
     }
@@ -131,6 +130,7 @@ public class Player : MonoBehaviour
         animator.runtimeAnimatorController = animCon[characterId];
     }
 
+    // Phuong thuc Save,Load
     // Lấy dữ liệu từ người chơi (Player), chuyển sang JSON và lưu vào file save.save.
     public void Save(ref PlayerSaveData data)
     {

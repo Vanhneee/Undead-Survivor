@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
     {
         GameManager.instance.gameData.option = Option.LoadGame;
 
-        SaveSystem.Load();
+        //SaveSystem.Load();
 
         SceneManager.LoadSceneAsync(1);
     }

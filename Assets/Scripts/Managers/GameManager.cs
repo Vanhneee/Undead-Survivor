@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public List<SkillSaveData> skills;
     public ItemData[] itemDatas;
+    public List<Enemy> enemies;
 
     public bool isLive;
     public bool gameWin;
@@ -55,11 +57,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SaveSystem.isSaved = false;
+        SaveSystem.isSaving = false;
     }
 
     private void Start()
     {
         SaveSystem.saveData.skillSaveData = new List<SkillSaveData>();
+        SaveSystem.saveData.gearSaveData = new List<GearSaveData>();
         SaveSystem.saveData.enemySaveData = new List<EnemySaveData>();
 
         if (uiGameStart == null) return;
@@ -73,10 +78,10 @@ public class GameManager : MonoBehaviour
             uiGameStart.SetActive(false);
             uiHUB.SetActive(true);
             uiPause.SetActive(true);
-            ContinueGame(gameData.playerSaveData.Id);
-             
+     
+            player.gameObject.SetActive(true);
             SaveSystem.Load();
-
+            ContinueGame(gameData.playerSaveData.id);
         }
     }
 
@@ -95,6 +100,10 @@ public class GameManager : MonoBehaviour
             gameWin = true;
             GameVictory();
         }
+        if (SaveSystem.isSaving == false) 
+        {
+            enemies = pool.gameObject.GetComponentsInChildren<Enemy>().ToList();
+        }  
     }
 
     public void NewGame(int id)
@@ -120,7 +129,6 @@ public class GameManager : MonoBehaviour
 
         player.ChangeCharacter(playerId); // tao nhan vat
 
-        player.gameObject.SetActive(true);
         isLive = true;
 
         AudioManager.instance.PlayBgm(true);

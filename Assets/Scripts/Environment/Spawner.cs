@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
             return;
 
         timer += Time.deltaTime; 
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 120f), spawnData.Length - 1); // 120s spawn new enemy
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 10f), spawnData.Length - 1); // 10s spawn new enemy
         
         if (timer > spawnData[level].spawnTime) 
         {
@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime * 0.8f && canSpawnBoss)
+        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime * 0.1f && canSpawnBoss)
         {
             SpawnBoss(4);
         }
@@ -47,11 +47,11 @@ public class Spawner : MonoBehaviour
 
     void Spawn(int level)
     {
-        
         GameObject enemy = GameManager.instance.pool.Get(0); // Lấy enemy từ pool
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position; // Đặt vị trí
         enemy.GetComponent<Enemy>().Init(spawnData[level]); // Khởi tạo enemy
         enemy.SetActive(true);
+        enemy.GetComponent<Enemy>().prefabID = level;
     }
 
     void SpawnBoss(int idboss)

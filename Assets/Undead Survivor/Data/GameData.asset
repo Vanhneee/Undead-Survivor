@@ -14,24 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   option: 1
   playerSaveData:
-    Id: 0
-    Position: {x: 6.170188, y: 4.1009398, z: 0}
-    Health: 92.400116
-    Level: 15
-    Exp: 0
-    Kill: 83
-    Time: 105.65463
-  skillSaveData:
-  - type: 0
-    prefabId: 1
-    level: 4
-    damage: 5
-  - type: 5
-    prefabId: 3
-    level: 3
-    damage: 8
-  - type: 6
-    prefabId: 5
-    level: 3
-    damage: 7
+    id: 0
+    position: {x: 1.24, y: 0, z: 0}
+    health: 100
+    level: 0
+    exp: 0
+    kill: 0
+    time: 13.324539
+  skillSaveData: []
+  gearSaveData: []
   enemySaveData: []

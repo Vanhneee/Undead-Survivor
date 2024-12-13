@@ -9,6 +9,7 @@ public class GameData : ScriptableObject
     public Option option;
     public PlayerSaveData playerSaveData;
     public List<SkillSaveData> skillSaveData;
+    public List<GearSaveData> gearSaveData;
     public List<EnemySaveData> enemySaveData;
 }
 

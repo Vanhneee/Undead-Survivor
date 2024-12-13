@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement; 
  
 public class PauseMenu : MonoBehaviour
@@ -15,9 +17,8 @@ public class PauseMenu : MonoBehaviour
 
     public void Home()
     {
-        SceneManager.LoadScene("Main Menu");
-        Time.timeScale = 1;
-        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        
+        StartCoroutine(waitToSaved());
     }
 
     public void Resume()
@@ -34,8 +35,19 @@ public class PauseMenu : MonoBehaviour
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
-    public void Save() 
+
+    IEnumerator waitToSaved()
     {
-        SaveSystem.Save();
+        if(SaveSystem.isSaving == false && SaveSystem.isSaved == false) SaveSystem.Save();
+
+        yield return new WaitUntil(() => GameManager.instance.enemies.Count <= 0);
+        yield return new WaitForEndOfFrame();
+
+        if (SaveSystem.isSaving) SaveSystem.writeToFile();
+
+        Time.timeScale = 1;
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        SceneManager.LoadScene("Main Menu");
+        print("aaaa");
     }
 }

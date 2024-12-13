@@ -134,24 +134,24 @@ public class Player : MonoBehaviour
     // Lấy dữ liệu từ người chơi (Player), chuyển sang JSON và lưu vào file save.save.
     public void Save(ref PlayerSaveData data)
     {
-        data.Id = GameManager.instance.playerId;
-        data.Position = transform.position;
-        data.Health = GameManager.instance.health; 
-        data.Level = GameManager.instance.level; 
-        data.Exp = GameManager.instance.exp;
-        data.Kill = GameManager.instance.kill;
-        data.Time = GameManager.instance.gameTime;
+        data.id = GameManager.instance.playerId;
+        data.position = transform.position;
+        data.health = GameManager.instance.health; 
+        data.level = GameManager.instance.level; 
+        data.exp = GameManager.instance.exp;
+        data.kill = GameManager.instance.kill;
+        data.time = GameManager.instance.gameTime;
     }
 
     //Đọc dữ liệu từ file, chuyển JSON -> đối tượng (Player) và Load game
     public void Load(PlayerSaveData data)
     {
-        transform.position = data.Position;
-        GameManager.instance.health = data.Health; 
-        GameManager.instance.level = data.Level; 
-        GameManager.instance.exp = data.Exp; 
-        GameManager.instance.kill = data.Kill;
-        GameManager.instance.gameTime = data.Time;
+        transform.position = data.position;
+        GameManager.instance.health = data.health; 
+        GameManager.instance.level = data.level; 
+        GameManager.instance.exp = data.exp; 
+        GameManager.instance.kill = data.kill;
+        GameManager.instance.gameTime = data.time;
     }
 }
 

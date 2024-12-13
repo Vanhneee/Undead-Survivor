@@ -95,6 +95,7 @@ public class Item : MonoBehaviour
                     gear.LevelUp(nextRate);
                 }
                 level += 1;
+                gear.level = level;
                 break;
 
             // Máu 
@@ -117,13 +118,26 @@ public class Item : MonoBehaviour
 
     public void ScanWP_inChildPlayer()
     {
-       Weapon[] wps = GameManager.instance.player.GetComponentsInChildren<Weapon>();
+        Weapon[] wps = GameManager.instance.player.GetComponentsInChildren<Weapon>();
         foreach (Weapon wp in wps)
         {
             if (wp.skill.type == this.data.itemType) 
             {
                 weapon = wp;
                 level = wp.skill.count;
+                return;
+            }
+        }
+    }
+    public void ScanGear_inChildPlayer()
+    {
+        Gear[] gears = GameManager.instance.player.GetComponentsInChildren<Gear>();
+        foreach (Gear gear in gears)
+        {
+            if (gear.type == this.data.itemType)
+            {
+                this.gear = gear;
+                level = gear.level;
                 return;
             }
         }

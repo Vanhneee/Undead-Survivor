@@ -41,6 +41,7 @@ public class LevelUp : MonoBehaviour
             item.gameObject.SetActive(false);
             if (item.weapon != null) continue;
             item.ScanWP_inChildPlayer();
+            item.ScanGear_inChildPlayer();
           
         }
 

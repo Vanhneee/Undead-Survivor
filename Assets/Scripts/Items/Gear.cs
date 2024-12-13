@@ -6,12 +6,12 @@ public class Gear : MonoBehaviour
 {
     public ItemType type;
     public float rate;
+    public int level;
 
-    public void  Init(ItemData data)
+    public void Init(ItemData data)
     {
-
         // Basic Set
-        name = "Weapon " + data.itemId;
+        name = "Gear " + data.itemId;
         transform.parent = GameManager.instance.player.transform;
         transform.localPosition = Vector3.zero;
 
@@ -64,5 +64,21 @@ public class Gear : MonoBehaviour
     {
         float speed = 3 * Character.Speed;
         GameManager.instance.player.speed = speed + speed * rate;
+    }
+
+    public virtual void Save(List<GearSaveData> data)
+    {
+        GearSaveData gear = new GearSaveData();
+        gear.level = level;
+        gear.rate = rate;
+        gear.type = this.type;
+
+        data.Add(gear);
+    }
+    public virtual void Load(GearSaveData data)
+    {
+        level = data.level;
+        rate = data.rate;
+        type = data.type;
     }
 }

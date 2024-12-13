@@ -4,10 +4,13 @@ using UnityEngine;
 using System.IO;
 using System;
 using System.Runtime.CompilerServices;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class SaveSystem
 {
     public static SaveData saveData = new SaveData();
+    public static bool isSaving = false;
+    public static bool isSaved = false;
 
     // tạo file save
     public static string SaveFileName()
@@ -24,7 +27,12 @@ public class SaveSystem
     public static void Save()
     {
         HandleSaveData();
+    }
+
+    public static void writeToFile()
+    {
         File.WriteAllText(SaveFileName(), JsonUtility.ToJson(saveData, true)); // PlayerSaveData -> JSON
+        isSaved = true;
     }
 
     private static void HandleSaveData()
@@ -33,11 +41,17 @@ public class SaveSystem
 
         GameManager.instance.player.Save(ref saveData.playerSaveData);
         Weapon[] weapons =  GameManager.instance.player.GetComponentsInChildren<Weapon>();
-        if (weapons == null || weapons.Length <= 0) return;
+        Gear[] gears = GameManager.instance.player.GetComponentsInChildren<Gear>();
         foreach (Weapon weapon in weapons) 
         {
             weapon.skill.Save(saveData.skillSaveData);
         }
+        foreach (Gear gear in gears)
+        {
+            gear.Save(saveData.gearSaveData);
+        }
+
+        isSaving = true;
     }
     
     public static void Load()
@@ -45,7 +59,9 @@ public class SaveSystem
         string saveContent = File.ReadAllText(SaveFileName());
  
         GameManager.instance.gameData.playerSaveData = JsonUtility.FromJson<SaveData>(saveContent).playerSaveData;
+        GameManager.instance.gameData.gearSaveData = JsonUtility.FromJson<SaveData>(saveContent).gearSaveData;
         GameManager.instance.gameData.skillSaveData = JsonUtility.FromJson<SaveData>(saveContent).skillSaveData;
+        GameManager.instance.gameData.enemySaveData = JsonUtility.FromJson<SaveData>(saveContent).enemySaveData;
 
         HandleLoadData();
     }
@@ -63,7 +79,21 @@ public class SaveSystem
             Weapon wp = obj.AddComponent<Weapon>();
             wp.Init(GameManager.instance.GetItemData(skill.type));
             wp.skill.Load(skill);
-            Debug.Log(skill.type);
+        }
+
+        foreach(GearSaveData gear in GameManager.instance.gameData.gearSaveData) 
+        {
+            GameObject obj =  new GameObject();
+            Gear g = obj.AddComponent<Gear>();
+            g.Init(GameManager.instance.GetItemData(gear.type));
+            g.Load(gear);
+        }
+
+        foreach (EnemySaveData enemy in GameManager.instance.gameData.enemySaveData)
+        { 
+            GameObject e = GameManager.instance.pool.Get(enemy.prefabId); // Lấy enemy từ pool
+            Enemy eCtrl = e.GetComponent<Enemy>();
+            eCtrl.Load(enemy);  
         }
     }
 }

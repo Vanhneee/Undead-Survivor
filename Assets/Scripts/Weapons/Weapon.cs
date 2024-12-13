@@ -32,18 +32,4 @@ public class Weapon : MonoBehaviour
         skill.skillObj = this.transform;
         GameManager.instance.player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
-
-    //public void SwitchWeapon(ItemData data)
-    //{
-    //    Skill newSkill = data.itemType switch
-    //    {
-    //        ItemType.Range => new Range(data),
-    //        ItemType.FireBall or
-    //        ItemType.Melee => new SpinningSkill(data),
-    //        ItemType.Rake => new Rake(data),
-    //        _ => null,
-    //    };
-    //    skill = newSkill;
-    //    skill.skillObj = this.transform;
-    //}
 }

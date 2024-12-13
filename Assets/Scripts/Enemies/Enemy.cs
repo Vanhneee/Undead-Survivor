@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class Enemy : MonoBehaviour
 {
+    public int prefabID;
     public float health;
     public float maxHealth;
     public float speed;
@@ -32,12 +35,19 @@ public class Enemy : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         wait = new WaitForFixedUpdate();
     }
-    private void Start()
+
+    private void Update()
     {
-        
+        if(SaveSystem.isSaving && GameManager.instance.enemies.Contains(this)) 
+        {
+            GameManager.instance.enemies.Remove(this);
+            Save(SaveSystem.saveData.enemySaveData);
+      
+        }
     }
-    void FixedUpdate()
-    {
+
+     private void FixedUpdate()
+     {
         if (!GameManager.instance.isLive)
             return;
 
@@ -149,5 +159,25 @@ public class Enemy : MonoBehaviour
             return;
 
         OnHitPlayer?.Invoke();
+    }
+
+
+    public virtual void Save(List<EnemySaveData> data)
+    {
+        EnemySaveData enemy = new EnemySaveData();
+        enemy.prefabId = prefabID;
+        enemy.position = transform.position;
+        enemy.health = health;
+        enemy.speed = speed;
+
+        data.Add(enemy);
+    }
+    public virtual void Load(EnemySaveData data)
+    {
+        transform.position = data.position;
+        health = data.health;
+        speed = data.speed;
+        anim.runtimeAnimatorController = animCon[data.prefabId];
+        this.gameObject.SetActive(true);
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemType: 0
   itemId: 0
   itemName: Melee
-  radius: 1
+  radius: 2
   itemDesc: Melee Count
   itemIcon: {fileID: -181907988, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
   baseDamage: 3

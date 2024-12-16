@@ -20,6 +20,7 @@ public struct SaveData
 [System.Serializable]
 public struct PlayerSaveData
 {
+    public bool isLive;
     public int id;
     public Vector3 position;
     public float health;
@@ -27,6 +28,7 @@ public struct PlayerSaveData
     public int exp;
     public int kill;
     public float time;
+
 }
 
 [System.Serializable]
@@ -53,6 +55,7 @@ public struct EnemySaveData
     public Vector3 position; 
     public float health;
     public float speed;
+    public int level;
 }
 
 

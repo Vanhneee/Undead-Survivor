@@ -27,6 +27,8 @@ public class Enemy : MonoBehaviour
     public static event System.Action OnHitPlayer;
     public static event System.Action OnDeath;
 
+    public int level;
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -125,9 +127,6 @@ public class Enemy : MonoBehaviour
         OnDeath?.Invoke();
         GameManager.instance.kill++;
 
-        //if(GameManager.instance.isLive)
-        //    AudioManager.instance.PlaySfx(AudioManager.Sfx.Dead);
-
         // Thêm xác suất rơi EXP (80%)
         if (expPrefab != null)
         {
@@ -169,6 +168,7 @@ public class Enemy : MonoBehaviour
         enemy.position = transform.position;
         enemy.health = health;
         enemy.speed = speed;
+        enemy.level = level;
 
         data.Add(enemy);
     }
@@ -177,7 +177,8 @@ public class Enemy : MonoBehaviour
         transform.position = data.position;
         health = data.health;
         speed = data.speed;
-        anim.runtimeAnimatorController = animCon[data.prefabId];
+        level = data.level;
+        anim.runtimeAnimatorController = animCon[data.level];
         this.gameObject.SetActive(true);
     }
 }

@@ -21,8 +21,6 @@ public class Item : MonoBehaviour
     {
         icon = GetComponentsInChildren<Image>()[1];
         icon.sprite = data.itemIcon;
-
-        
         textName.text = data.itemName;
     }
 
@@ -36,7 +34,8 @@ public class Item : MonoBehaviour
         textLevel.text = "Lv." + (level + 1);
 
         switch (data.itemType)
-        {   case ItemType.Rake:
+        {   case ItemType.Poison:
+            case ItemType.Rake:
             case ItemType.FireBall:
             case ItemType.Melee:
             case ItemType.Range:
@@ -59,6 +58,7 @@ public class Item : MonoBehaviour
         switch (data.itemType)
         {
             // dame , số lượng
+            case ItemType.Poison:
             case ItemType.Rake:
             case ItemType.FireBall:
             case ItemType.Melee:

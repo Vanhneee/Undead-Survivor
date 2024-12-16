@@ -78,7 +78,6 @@ public class AudioManager : MonoBehaviour
     }
     
     // tăng giảm âm lượng
-
     public void SoundVolume(float volume)
     {
         soundPlayer.volume = Mathf.Clamp(volume, 0f, 1f); 

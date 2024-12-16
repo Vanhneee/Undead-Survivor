@@ -5,8 +5,9 @@ using System.IO;
 using System;
 using System.Runtime.CompilerServices;
 using static Cinemachine.DocumentationSortingAttribute;
+using static UnityEngine.EventSystems.EventTrigger;
 
-public class SaveSystem
+public class SaveSystem : MonoBehaviour 
 {
     public static SaveData saveData = new SaveData();
     public static bool isSaving = false;
@@ -31,7 +32,7 @@ public class SaveSystem
 
     public static void writeToFile()
     {
-        File.WriteAllText(SaveFileName(), JsonUtility.ToJson(saveData, true)); // PlayerSaveData -> JSON
+        File.WriteAllText(SaveFileName(), JsonUtility.ToJson(saveData, true)); // saveData-> JSON
         isSaved = true;
     }
 
@@ -57,7 +58,8 @@ public class SaveSystem
     public static void Load()
     {
         string saveContent = File.ReadAllText(SaveFileName());
- 
+        
+        // chuỗi Json "saveContent" -> đối tượng kiểu SaveData
         GameManager.instance.gameData.playerSaveData = JsonUtility.FromJson<SaveData>(saveContent).playerSaveData;
         GameManager.instance.gameData.gearSaveData = JsonUtility.FromJson<SaveData>(saveContent).gearSaveData;
         GameManager.instance.gameData.skillSaveData = JsonUtility.FromJson<SaveData>(saveContent).skillSaveData;
@@ -90,12 +92,19 @@ public class SaveSystem
         }
 
         foreach (EnemySaveData enemy in GameManager.instance.gameData.enemySaveData)
-        { 
-            GameObject e = GameManager.instance.pool.Get(enemy.prefabId); // Lấy enemy từ pool
-            Enemy eCtrl = e.GetComponent<Enemy>();
-            eCtrl.Load(enemy);  
+        {
+            GameManager.instance.StartCoroutine(loadEnemy(enemy));
         }
     }
+
+    static IEnumerator loadEnemy(EnemySaveData enemy) 
+    {
+        GameObject e = GameManager.instance.pool.Get(enemy.prefabId); // Lấy enemy từ pool
+        Enemy eCtrl = e.GetComponent<Enemy>();
+        eCtrl.Load(enemy);
+        yield return new WaitForEndOfFrame();
+    }
+
 }
 
 

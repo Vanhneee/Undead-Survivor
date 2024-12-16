@@ -14,13 +14,230 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   option: 1
   playerSaveData:
-    id: 0
-    position: {x: 1.24, y: 0, z: 0}
+    isLive: 1
+    id: 1
+    position: {x: -2.3469632, y: 3.948667, z: 0}
     health: 100
     level: 0
     exp: 0
-    kill: 0
-    time: 13.324539
-  skillSaveData: []
+    kill: 2
+    time: 10.769838
+  skillSaveData:
+  - type: 1
+    prefabId: 2
+    level: 1
+    damage: 10
   gearSaveData: []
-  enemySaveData: []
+  enemySaveData:
+  - prefabId: 0
+    position: {x: -5.9478827, y: 6.139001, z: 0}
+    health: 0
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 1.3529544, y: 6.488591, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -6.3494506, y: 6.377299, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -10.70219, y: -0.01004976, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 5.820345, y: -6.055359, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -12.0457535, y: 6.19928, z: 0}
+    health: 0
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 5.38972, y: -5.6257153, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 11.7661915, y: 0.43287474, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -9.097275, y: -4.75684, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 11.69334, y: 0.7073251, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 11.525785, y: 0.92500794, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -11.89409, y: 10.592291, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -3.4752324, y: -2.580886, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 11.564216, y: 1.257568, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 2.9000177, y: 10.580216, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 11.567459, y: 8.663203, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -13.432797, y: 11.728603, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 3.386133, y: 11.19013, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -17.67537, y: -0.053069234, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -14.193012, y: 12.264685, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 12.90367, y: 9.11408, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 13.471239, y: 0.842456, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.9470406, y: 11.150045, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 4.626276, y: 12.647015, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 14.876139, y: 0.63728887, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -13.137751, y: -7.571991, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 15.39892, y: -6.385695, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.1281137, y: -6.951008, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -16.280386, y: 13.802089, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.2248735, y: -7.543154, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 16.435907, y: -6.9895806, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -14.388756, y: -8.907611, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -22.540956, y: 10.222031, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 8.369897, y: -9.715502, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -17.77453, y: 14.8587055, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -18.019472, y: 15.031921, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 17.608793, y: 10.668179, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 17.893103, y: 10.763912, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -15.824337, y: -10.4402895, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 18.795053, y: -8.363424, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.7667284, y: -10.859182, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -24.307117, y: -1.8179436, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.863488, y: -11.451338, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 19.62739, y: 11.347881, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -4.960248, y: -12.043493, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -20.493383, y: 16.781445, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 20.480318, y: 11.635082, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: 10.980326, y: -13.043856, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -17.895636, y: -12.651726, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -5.2263374, y: -13.671921, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -21.375156, y: 17.405075, z: 0}
+    health: 10
+    speed: 2
+  - prefabId: 0
+    position: {x: -28.01316, y: 11.921871, z: 0}
+    health: 10
+    speed: 1.5
+  - prefabId: 0
+    position: {x: -21.86505, y: 17.751514, z: 0}
+    health: 10
+    speed: 2

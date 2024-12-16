@@ -125,7 +125,6 @@ public class GameManager : MonoBehaviour
     public void ContinueGame(int id)
     {
         playerId = id;
-        health = maxHealth;
 
         player.ChangeCharacter(playerId); // tao nhan vat
 
@@ -147,8 +146,6 @@ public class GameManager : MonoBehaviour
         }
         return itdt;
     }
-
-
 
     public void GameOver() 
     {

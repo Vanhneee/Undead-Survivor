@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Skill
 {
-    public int id ;
+    public int id;
     public int prefabId;
-    public int count=1;
+    public int count = 1;
     public float damage;
     public float speed;
     public Hand rightHand;
@@ -59,7 +59,10 @@ public abstract class Skill
                 break;
             case 6:
                 speed = 2f;
-                break;        
+                break;
+            case 8:
+                radius = 2;
+                break;
         }
 
         if (rightHand == null)
@@ -96,7 +99,7 @@ public abstract class Skill
   
 }
 
-
+// 4 skill
 
 public class Range : Skill
 {
@@ -261,3 +264,44 @@ public class SpinningSkill : Skill
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Melle);
     }
 }
+
+public class Poison : Skill
+{
+    private Transform poisonArea;
+
+    public Poison(ItemData data = null)
+    {
+        Init(data);
+    }
+
+    public override void Excute()
+    {
+        poison();
+    }
+
+    void poison()
+    {
+        for (int index = 0; index < count; index++)
+        {
+            if (index < skillObj.childCount)
+            {
+                poisonArea = skillObj.GetChild(index);
+            }
+            else
+            {
+                poisonArea = GameManager.instance.pool.Get(prefabId).transform;
+                poisonArea.parent = skillObj;
+            }
+
+            poisonArea.localPosition = Vector3.zero;
+
+            float scaleMultiplier = 1f + 0.2f * count;
+            poisonArea.localScale = Vector3.one * scaleMultiplier;
+
+            poisonArea.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform, (0, 0));
+        }
+    }
+}
+
+
+

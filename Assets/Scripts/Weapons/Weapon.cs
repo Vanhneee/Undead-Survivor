@@ -26,6 +26,7 @@ public class Weapon : MonoBehaviour
             ItemType.FireBall or
             ItemType.Melee => new SpinningSkill(data),
             ItemType.Rake => new Rake(data),
+            ItemType.Poison => new Poison(data),
             _=> null,
         };
         skill = newSkill;

@@ -19,9 +19,7 @@ public class MainMenu : MonoBehaviour
     public void ContinueGame()
     {
         GameManager.instance.gameData.option = Option.LoadGame;
-
-        //SaveSystem.Load();
-
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync(1);
     }
 

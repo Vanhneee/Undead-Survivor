@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     public void Awake()
-
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
@@ -57,7 +56,6 @@ public class Player : MonoBehaviour
 
         // di chuyen Player
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
-
         rigid.MovePosition(rigid.position + nextVec);
     }
 
@@ -66,9 +64,8 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isLive)
             return;
 
-        // set animator chuyển động
+        // Set animator chuyển động
         animator.SetFloat("Speed", inputVec.magnitude);
-
         if (inputVec.x != 0) 
         {
             spriter.flipX = inputVec.x < 0;
@@ -79,7 +76,7 @@ public class Player : MonoBehaviour
     {
         if(!GameManager.instance.isLive || collision == null)
             return;
-        // nhận damage
+        // Nhận damage
         if (collision.gameObject.CompareTag("Enemy"))
         {
             GameManager.instance.health -= Time.deltaTime * 10;
@@ -134,6 +131,7 @@ public class Player : MonoBehaviour
     // Lấy dữ liệu từ người chơi (Player), chuyển sang JSON và lưu vào file save.save.
     public void Save(ref PlayerSaveData data)
     {
+        data.isLive = GameManager.instance.isLive;
         data.id = GameManager.instance.playerId;
         data.position = transform.position;
         data.health = GameManager.instance.health; 
@@ -146,6 +144,7 @@ public class Player : MonoBehaviour
     //Đọc dữ liệu từ file, chuyển JSON -> đối tượng (Player) và Load game
     public void Load(PlayerSaveData data)
     {
+        GameManager.instance.isLive = data.isLive;
         transform.position = data.position;
         GameManager.instance.health = data.health; 
         GameManager.instance.level = data.level; 

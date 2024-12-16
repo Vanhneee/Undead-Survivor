@@ -15,10 +15,16 @@ public class PauseMenu : MonoBehaviour
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
-    public void Home()
+    public void HomeAndSave()
     {
-        
         StartCoroutine(waitToSaved());
+    }
+
+    public void HomeNoSave() 
+    {
+        Time.timeScale = 1;
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void Resume()
@@ -48,6 +54,5 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
         SceneManager.LoadScene("Main Menu");
-        print("aaaa");
     }
 }

@@ -3,7 +3,7 @@
 public class FollowHealth : MonoBehaviour
 {
     public Transform player;          // Tham chiếu đến Transform của Player
-    public Vector3 offset = new Vector3(0, 0, 0); // Độ lệch để thanh máu hiển thị trên đầu Player
+    public Vector3 offset = new Vector3(); // Độ lệch để thanh máu hiển thị trên đầu Player
 
     private RectTransform rectTransform;
     private Canvas canvas;
@@ -19,7 +19,6 @@ public class FollowHealth : MonoBehaviour
         if (player == null || canvas == null)
             return;
 
-        // Tính vị trí thế giới của thanh máu với độ lệch
         Vector3 worldPosition = player.position + offset;
 
         // Chuyển đổi vị trí thế giới sang vị trí màn hình
@@ -34,7 +33,6 @@ public class FollowHealth : MonoBehaviour
             out canvasPosition
         );
 
-        // Cập nhật vị trí của thanh máu trên Canvas
         rectTransform.anchoredPosition = canvasPosition;
     }
 }

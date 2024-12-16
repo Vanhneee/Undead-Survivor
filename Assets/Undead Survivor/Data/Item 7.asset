@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53a7fb1e414a1464186f3702f87d4087, type: 3}
-  m_Name: Item 0
+  m_Name: Item 7
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemId: 0
-  itemName: Melee
-  radius: 1.5
-  itemDesc: Melee Count
-  itemIcon: {fileID: -181907988, guid: d71a3dc7aa20fad4f9a99fc76a9254ba, type: 3}
-  baseDamage: 3
+  itemType: 7
+  itemId: 7
+  itemName: Poison
+  radius: 0
+  itemDesc: Desc Poison
+  itemIcon: {fileID: 21300000, guid: db005d11213e5da47b9769c2e6c56eee, type: 3}
+  baseDamage: 1
   baseCount: 1
   damages:
-  - 0.5
   - 1
-  - 1.5
-  - 2
-  - 3
-  - 3
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
   counts: 010000000100000001000000010000000100000001000000
-  projectile: {fileID: 9215145825562306889, guid: fd7570a574db79143b0b0ae6bcb4a468,
+  projectile: {fileID: 2916384015195959649, guid: 4776c977f8475de4ea5f9d7f7d8a4928,
     type: 3}
-  hand: {fileID: 143021600, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  hand: {fileID: 0}

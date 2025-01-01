@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
             return;
 
         timer += Time.deltaTime; 
-        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 1f), spawnData.Length - 1); // 1s spawn new enemy
+        level = Mathf.Min(Mathf.FloorToInt(GameManager.instance.gameTime / 60f), spawnData.Length - 1); // 60s spawn new enemy
         
         if (timer > spawnData[level].spawnTime) 
         {
@@ -39,7 +39,7 @@ public class Spawner : MonoBehaviour
             }
         }
 
-        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime * 0.01f && canSpawnBoss)
+        if(GameManager.instance.gameTime >= GameManager.instance.maxGameTime * 0.2f && canSpawnBoss)
         {
             SpawnBoss(4);
         }

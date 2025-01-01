@@ -164,6 +164,7 @@ public class GameManager : MonoBehaviour
 
         AudioManager.instance.PlayBgm(false);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
+
     }
 
     public void GameVictory()

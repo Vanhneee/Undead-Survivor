@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    public GameObject hudDamageText;
-
     public EnemyStat stat;
     public Rigidbody2D target;
     bool isLive = true;
@@ -113,7 +111,7 @@ public class BossController : MonoBehaviour
         bulletobj.transform.position = rigid.position;
         Bullet bullet = bulletobj.GetComponent<Bullet>();
         Vector3 dir =(target.position - rigid.position).normalized;
-        bullet.Init(10, dir,transform, (5f, 10f) , true);
+        bullet.Init(5, dir,transform, (5f, 10f) , true);
         bulletobj.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -173,16 +171,11 @@ public class BossController : MonoBehaviour
 public class EnemyStat
 {
     public float MoveSpeed = 3.0f;
-    public float HP = 100;
-    public float MaxHP = 100;
-    public float Defense = 10;
-    public float Damage = 10f;
+    public float HP = 500;
+    public float MaxHP = 500;
+    public float Defense = 5;
+    public float Damage = 5f;
 }
-
-//public class UI_DamageText : MonoBehaviour
-//{
-//    public float damage;
-//}
 
 
 

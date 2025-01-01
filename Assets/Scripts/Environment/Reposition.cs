@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Map
-
 public class Reposition : MonoBehaviour
 {
     private Collider2D coll;
@@ -13,7 +12,7 @@ public class Reposition : MonoBehaviour
         coll = GetComponent<Collider2D>();
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.CompareTag("Area"))
             return;
@@ -34,25 +33,11 @@ public class Reposition : MonoBehaviour
             case "Ground":
                 if (diffX > diffY)
                 {
-                    if (dirX > 0)
-                    {
-                        transform.Translate(Vector3.right * 40);
-                    }
-                    else
-                    {
-                        transform.Translate(Vector3.left * 40);
-                    }
+                    transform.Translate(Vector3.right * dirX * 80);
                 }
-                else if (diffY > diffX)
+                else if (diffX < diffY)
                 {
-                    if (dirY > 0)
-                    {
-                        transform.Translate(Vector3.up * 40);
-                    }
-                    else
-                    {
-                        transform.Translate(Vector3.down * 40);
-                    }
+                    transform.Translate(Vector3.up * dirY * 80);
                 }
                 break;
             case "Enemy":

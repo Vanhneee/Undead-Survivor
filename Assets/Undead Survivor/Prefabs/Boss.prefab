@@ -183,13 +183,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51081012e6c15f4aa37e7d67d8fc464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hudDamageText: {fileID: 0}
   stat:
     MoveSpeed: 3
-    HP: 100
-    MaxHP: 100
-    Defense: 10
-    Damage: 10
+    HP: 500
+    MaxHP: 500
+    Defense: 5
+    Damage: 5
   target: {fileID: 3010232662939435229}
   skillcool: 8
   randStat: 50

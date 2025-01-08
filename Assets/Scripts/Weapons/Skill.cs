@@ -295,7 +295,7 @@ public class Poison : Skill
 
             poisonArea.localPosition = Vector3.zero;
 
-            float scaleMultiplier = 1f + 0.2f * count;
+            float scaleMultiplier = 1f + 0.3f * count;
             poisonArea.localScale = Vector3.one * scaleMultiplier;
 
             poisonArea.GetComponent<Bullet>().Init(damage, Vector3.zero, player.transform, (0, 0));

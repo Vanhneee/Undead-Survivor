@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
 
         // di chuyen Player
         Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        rigid.position += nextVec;
     }
 
     private void LateUpdate()
@@ -74,20 +74,15 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(!GameManager.instance.isLive || collision == null)
-            return;
-        // Nhận damage
+        if(!GameManager.instance.isLive || collision == null) return;
+
+        // Nhận damage enemy
         if (collision.gameObject.CompareTag("Enemy"))
         {
             GameManager.instance.health -= Time.deltaTime * 10;
         }
-        if (collision.gameObject.CompareTag("Boss"))
-        {
-            BossController boss = collision.gameObject.GetComponent<BossController>();
-            GameManager.instance.health -= boss.stat.Damage;
-        }
 
-        if(GameManager.instance.health < 0) 
+        if(GameManager.instance.health <= 0) 
         {
             animator.SetTrigger("Dead");
             GameManager.instance.GameOver();
@@ -96,25 +91,34 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!GameManager.instance.isLive || (!collision.gameObject.CompareTag("Bullet")) || collision == null)
-            return;
-        Bullet b = collision.GetComponent<Bullet>();
-        if (!b.parent.CompareTag("Enemy") && !b.parent.CompareTag("Boss")) return;
-        GameManager.instance.health -= b.damage;
+        if (!GameManager.instance.isLive || collision == null) return;
 
-        if (GameManager.instance.health < 0)
+        // nhan damage 2 skill boss
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            GameManager.instance.health -= boss.stat.Damage;
+        }
+
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Bullet b = collision.GetComponent<Bullet>();
+            if (!b.parent.CompareTag("Enemy") && !b.parent.CompareTag("Boss")) return;
+            GameManager.instance.health -= b.damage;
+        }
+        
+        if (GameManager.instance.health <= 0)
         {
             animator.SetTrigger("Dead");
             GameManager.instance.GameOver();
         }
     }
 
-    
+    // ham khoi tao nhan vat
     public void ChangeCharacter(int characterId)
     {
         if (characterId < 0 || characterId >= animCon.Length)
         {
-            Debug.LogError("Character ID is out of bounds for animCon array.");
             return;
         }
 

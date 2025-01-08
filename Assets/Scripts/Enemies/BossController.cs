@@ -35,7 +35,7 @@ public class BossController : MonoBehaviour
         if (!isLive)
             return;
         Vector2 dirVec = target.position - rigid.position;
-        if(dirVec.magnitude >5f && !useSkill)
+        if (dirVec.magnitude > 5f && !useSkill)
         {
             Vector3 nextVec = dirVec.normalized * (stat.MoveSpeed * Time.fixedDeltaTime);
             transform.position += nextVec;
@@ -44,7 +44,7 @@ public class BossController : MonoBehaviour
         if (dirVec.magnitude < 10f)
         {
 
-            if (useSkill )
+            if (useSkill)
             {
                 return;
             }
@@ -85,7 +85,7 @@ public class BossController : MonoBehaviour
         isLive = true;
     }
     // Skills
-    IEnumerator  Skill1()
+    IEnumerator Skill1()
     {
         useSkill = true;
 
@@ -94,7 +94,7 @@ public class BossController : MonoBehaviour
         Debug.DrawRay(transform.position, dir);
         yield return new WaitForFixedUpdate();
         //print("skill 1");
-        rigid.AddForce(dir.normalized * 15f,ForceMode2D.Impulse);
+        rigid.AddForce(dir.normalized * 15f, ForceMode2D.Impulse);
         yield return new WaitForSeconds(1f);
         rigid.velocity = Vector2.zero;
         yield return new WaitForSeconds(2f);
@@ -102,7 +102,7 @@ public class BossController : MonoBehaviour
     }
 
     IEnumerator Skill2()
-    {   
+    {
         print("skill 2");
         useSkill = true;
         yield return new WaitForEndOfFrame();
@@ -110,8 +110,8 @@ public class BossController : MonoBehaviour
         GameObject bulletobj = GameManager.instance.pool.Get(6);
         bulletobj.transform.position = rigid.position;
         Bullet bullet = bulletobj.GetComponent<Bullet>();
-        Vector3 dir =(target.position - rigid.position).normalized;
-        bullet.Init(5, dir,transform, (5f, 10f) , true);
+        Vector3 dir = (target.position - rigid.position).normalized;
+        bullet.Init(5, dir, transform, (5f, 10f), true);
         bulletobj.SetActive(true);
 
         yield return new WaitForSeconds(1f);
@@ -122,11 +122,11 @@ public class BossController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision == null || !collision.CompareTag("Bullet") || collision == null) 
+        if (collision == null || !collision.CompareTag("Bullet") || collision == null)
             return;
-        
+
         Bullet b = collision.GetComponent<Bullet>();
-        if(!b.parent.CompareTag("Player")) return;
+        if (!b.parent.CompareTag("Player")) return;
         OnDamaged(b.damage);
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -143,6 +143,8 @@ public class BossController : MonoBehaviour
         if (stat.HP <= 0)
         {
             OnDead();
+            GameManager.instance.gameWin = true;
+            GameManager.instance.GameVictory();
         }
     }
 
@@ -153,7 +155,6 @@ public class BossController : MonoBehaviour
         animator.Play("boss_dead");
         gameObject.SetActive(false);
         SpawnExp();
-        GameManager.instance.AddExp(10); // Thêm EXP cho người chơi khi Boss chết
     }
 
     void SpawnExp()
@@ -176,6 +177,5 @@ public class EnemyStat
     public float Defense = 5;
     public float Damage = 5f;
 }
-
 
 

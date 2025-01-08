@@ -38,9 +38,11 @@ public class Bullet : MonoBehaviour
     {
         if (!canDead)
             return;
-        if((collision.CompareTag("Enemy") && parent.CompareTag("Player")) || 
-            (collision.CompareTag("Player") && (parent.CompareTag("Enemy") || parent.CompareTag("Boss")))
-            )
+        if( (collision.CompareTag("Enemy") && parent.CompareTag("Player")) || 
+              ( collision.CompareTag("Player") && 
+                ( parent.CompareTag("Enemy") ||parent.CompareTag("Boss") ) 
+              )
+           )
             gameObject.SetActive(false);    
     }
 }

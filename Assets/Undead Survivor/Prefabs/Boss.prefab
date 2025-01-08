@@ -149,7 +149,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &5750795376331412128
 Animator:
   serializedVersion: 5
@@ -184,9 +184,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stat:
-    MoveSpeed: 3
-    HP: 500
-    MaxHP: 500
+    MoveSpeed: 2.5
+    HP: 3000
+    MaxHP: 3000
     Defense: 5
     Damage: 5
   target: {fileID: 3010232662939435229}

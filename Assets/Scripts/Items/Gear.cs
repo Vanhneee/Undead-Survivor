@@ -50,7 +50,7 @@ public class Gear : MonoBehaviour
             switch (weapon.skill.id)
             {
                 case 0:
-                    weapon.skill.speed = 150 + (150  * rate);
+                    weapon.skill.speed = -150 - (150  * rate);
                     break;
                 case 1:
                     weapon.skill.speed = 0.8f + (0.8f * rate);
@@ -62,7 +62,7 @@ public class Gear : MonoBehaviour
     // Toc do di chuyen (levelup)
     void SpeedUp() 
     {
-        float speed = 3 * Character.Speed;
+        float speed = 4 * Character.Speed;
         GameManager.instance.player.speed = speed + speed * rate;
     }
 
